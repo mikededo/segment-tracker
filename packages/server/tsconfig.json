@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "outDir": "../../dist/packages/server"
+  },
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts", "packages/client"],
+  "include": ["./src/**/*"],
+  "extends": "../../tsconfig.json"
+}

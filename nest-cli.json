@@ -5,7 +5,7 @@
   "root": "packages/server",
   "compilerOptions": {
     "webpack": true,
-    "tsConfigPath": "packages/server/tsconfig.app.json"
+    "tsConfigPath": "packages/server/tsconfig.json"
   },
   "projects": {
     "server": {
@@ -14,7 +14,7 @@
       "entryFile": "main",
       "sourceRoot": "packages/server/src",
       "compilerOptions": {
-        "tsConfigPath": "packages/server/tsconfig.app.json"
+        "tsConfigPath": "packages/server/tsconfig.json"
       }
     }
   }
