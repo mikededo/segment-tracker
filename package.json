@@ -31,6 +31,7 @@
     "bcrypt": "^5.0.1",
     "config": "^3.3.6",
     "fork-ts-checker-webpack-plugin": "^6.2.13",
+    "jest-mock-extended": "^2.0.1",
     "mongoose": "^5.13.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

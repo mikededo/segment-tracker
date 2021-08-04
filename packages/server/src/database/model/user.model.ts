@@ -59,6 +59,8 @@ export async function beforeSave(next: () => any) {
   // Hash the password otherwise
   const password = await hash(this.password, 12);
   this.set('password', password);
+
+  next();
 }
 
 // Add the hook before the user is saved
