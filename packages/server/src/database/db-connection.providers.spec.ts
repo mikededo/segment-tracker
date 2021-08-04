@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Connection, createConnection } from 'mongoose';
 
 import mongoConfig from '../config/mongo.config';
+import { PROVIDERS } from '../shared/constants';
 import { dbConnectionProviders } from './db-connection.providers';
 
 jest.mock('mongoose', () => ({
@@ -21,10 +22,10 @@ describe('dbConnectionProviders', () => {
       providers: [...dbConnectionProviders],
     }).compile();
 
-    connection = module.get<Connection>('DATABASE_CONNECTION');
+    connection = module.get<Connection>(PROVIDERS.DB);
   });
 
-  it('DATABASE_CONNECTION should be defined', () => {
+  it(`${PROVIDERS.DB} should be defined`, () => {
     expect(connection).toBeDefined();
   });
 
