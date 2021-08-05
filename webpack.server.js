@@ -7,11 +7,10 @@ const prod =
   typeof process.env.NODE_ENV !== 'undefined' &&
   process.env.NODE_ENV === 'production';
 
+const basePath = path.join(__dirname, 'packages', 'server', 'src');
+
 module.exports = {
-  entry: [
-    'webpack/hot/poll?100',
-    path.join(__dirname, 'packages', 'server', 'src', 'main.ts'),
-  ],
+  entry: ['webpack/hot/poll?100', path.join(basePath, 'main.ts')],
   optimization: {
     minimize: false,
   },
@@ -34,6 +33,13 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
+    alias: {
+      '@config': path.resolve(basePath, 'config'),
+      '@database': path.resolve(basePath, 'database'),
+      '@models': path.resolve(basePath, 'database', 'models'),
+      '@shared': path.resolve(basePath, 'shared'),
+      '@user': path.resolve(basePath, 'user'),
+    },
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
