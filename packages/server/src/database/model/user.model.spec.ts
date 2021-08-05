@@ -18,8 +18,8 @@ jest.mock('mongoose', () => ({
   })),
 }));
 
-import { hash } from 'bcrypt';
 // Add imports after, to avoid ReferenceError
+import { hash } from 'bcrypt';
 import { anyFunction } from 'jest-mock-extended';
 import {
   beforeSave,

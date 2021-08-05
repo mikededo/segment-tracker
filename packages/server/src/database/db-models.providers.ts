@@ -1,6 +1,6 @@
 import { Connection } from 'mongoose';
 
-import { PROVIDERS } from '../shared/constants';
+import { PROVIDERS } from '@shared/constants';
 import { createUserModel } from './model/user.model';
 
 export const dbModelsProviders = [

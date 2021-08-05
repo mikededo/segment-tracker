@@ -2,7 +2,7 @@ import { hash, compare } from 'bcrypt';
 import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
 import { from, Observable } from 'rxjs';
 
-import { Gender, Level } from '../../shared/enums';
+import { Gender, Level } from '@shared/enums';
 
 export interface User extends Document {
   readonly email: string;
