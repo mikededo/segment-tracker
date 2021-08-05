@@ -1,7 +1,15 @@
 {
   "compilerOptions": {
     "declaration": false,
-    "outDir": "../../dist/packages/server"
+    "outDir": "../../dist/packages/server",
+    "baseUrl": "./src",
+    "paths": {
+      "@config/*": ["./config/*"],
+      "@database/*": ["./database/*"],
+      "@models/*": ["./database/model/*"],
+      "@shared/*": ["./shared/*"],
+      "@user/*": ["./user/*"]
+    }
   },
   "exclude": ["node_modules", "dist", "test", "**/*spec.ts", "packages/client"],
   "include": ["./src/**/*"],
