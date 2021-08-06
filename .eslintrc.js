@@ -8,6 +8,7 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
+    'prefer-arrow',
   ],
   root: true,
   env: {
@@ -20,6 +21,14 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'prefer-arrow/prefer-arrow-functions': [
+      'error',
+      {
+        disallowPrototype: true,
+        singleReturnOnly: false,
+        classPropertiesAllowed: false,
+      },
+    ],
   },
   overrides: [
     {
