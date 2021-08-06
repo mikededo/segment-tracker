@@ -2,6 +2,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -23,17 +24,17 @@ export class RegisterDto {
   @IsNotEmpty()
   readonly lastName: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   readonly weight?: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   readonly height?: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum(Gender)
   readonly gender?: Gender;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum(Level)
   readonly level?: Level;
 }
