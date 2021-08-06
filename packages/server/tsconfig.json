@@ -11,7 +11,7 @@
       "@user/*": ["./user/*"]
     }
   },
-  "exclude": ["node_modules", "dist", "test", "**/*spec.ts", "packages/client"],
+  "exclude": ["node_modules", "dist", "test", "packages/client"],
   "include": ["./src/**/*"],
   "extends": "../../tsconfig.json"
 }
