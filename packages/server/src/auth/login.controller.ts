@@ -15,7 +15,6 @@ export class LoginController {
     @Req() req: AuthenticatedRequest,
     @Res() res: Response,
   ): Observable<Response> {
-    console.log(req);
     return this.authService
       .login(req.user)
       .pipe(

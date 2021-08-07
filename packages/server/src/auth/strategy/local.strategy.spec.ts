@@ -39,7 +39,7 @@ describe('LocalStrategy', () => {
           } as UserFromClaims),
         );
 
-      const user = await strategy.validateUser('mock@data.com', '12345');
+      const user = await strategy.validate('mock@data.com', '12345');
 
       expect(user.email).toEqual('mock@data.com');
       expect(user.id).toEqual('12345');
@@ -55,7 +55,7 @@ describe('LocalStrategy', () => {
 
       expect.assertions(2);
       try {
-        await strategy.validateUser('mock@data.com', '12345');
+        await strategy.validate('mock@data.com', '12345');
       } catch (error) {
         expect(error).toBeDefined();
         expect(error).toBeInstanceOf(UnauthorizedException);

@@ -32,7 +32,7 @@ describe('JwtStrategy', () => {
     expect(config.expireTime).toBeDefined();
     expect(config.secretKey).toBeDefined();
 
-    const user = await strategy.parse({
+    const user = await strategy.validate({
       ui: 'testid',
       ue: 'mock@data.com',
     });

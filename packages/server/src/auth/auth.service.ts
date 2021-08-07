@@ -49,7 +49,6 @@ export class AuthService {
    * to be used as the beare token
    */
   login(user: UserFromClaims): Observable<AccessToken> {
-    console.log(user);
     const claimsPayload: JwtUserPayload = {
       ui: user.id,
       ue: user.email,

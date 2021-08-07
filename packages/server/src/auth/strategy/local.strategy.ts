@@ -7,15 +7,15 @@ import { UserFromClaims } from '@shared/interfaces';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
+export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: AuthService) {
     super({
-      emailField: 'email',
+      usernameField: 'email',
       passwordField: 'password',
     });
   }
 
-  async validateUser(email: string, password: string): Promise<UserFromClaims> {
+  async validate(email: string, password: string): Promise<UserFromClaims> {
     const user: UserFromClaims = await lastValueFrom(
       this.authService.validateUser(email, password),
     );

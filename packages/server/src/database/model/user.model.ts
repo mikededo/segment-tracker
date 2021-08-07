@@ -30,7 +30,7 @@ export type UserModel = Model<User>;
 export const UserSchema = new Schema<User>(
   {
     email: SchemaTypes.String,
-    password: { type: SchemaTypes.String, select: false },
+    password: { type: SchemaTypes.String },
     firstName: SchemaTypes.String,
     lastName: { type: SchemaTypes.String, required: false },
     weight: { type: SchemaTypes.Number, default: 80.0 },
