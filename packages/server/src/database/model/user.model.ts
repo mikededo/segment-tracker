@@ -1,8 +1,9 @@
-import { hash, compare } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
 import { from, Observable } from 'rxjs';
 
 import { Gender, Level } from '@shared/enums';
+import { baseSerializer } from '@shared/helpers';
 
 export interface User extends Document {
   readonly email: string;
@@ -29,25 +30,26 @@ export type UserModel = Model<User>;
 export const UserSchema = new Schema<User>(
   {
     email: SchemaTypes.String,
-    password: SchemaTypes.String,
+    password: { type: SchemaTypes.String, select: false },
     firstName: SchemaTypes.String,
     lastName: { type: SchemaTypes.String, required: false },
-    weight: { type: SchemaTypes.Number, defaults: 80.0 },
-    height: { type: SchemaTypes.Number, defaults: 170.0 },
+    weight: { type: SchemaTypes.Number, default: 80.0 },
+    height: { type: SchemaTypes.Number, default: 170.0 },
     gender: {
       type: SchemaTypes.String,
       enum: ['MALE', 'FEMALE', 'OTHER'],
-      defaults: 'OTHER',
+      default: 'OTHER',
     },
     level: {
       type: SchemaTypes.String,
       enum: ['BEGGINER', 'INTERMEDIATE', 'ADVANCED', 'EXPERT'],
-      defaults: 'INTERMEDIATE',
+      default: 'INTERMEDIATE',
     },
   },
   {
     timestamps: true,
-    toJSON: { virtuals: true },
+    toJSON: { virtuals: true, transform: baseSerializer },
+    versionKey: false,
   },
 );
 

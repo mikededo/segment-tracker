@@ -1,3 +1,6 @@
+import { Response } from 'express';
+import { map, mergeMap, Observable } from 'rxjs';
+
 import {
   Body,
   ConflictException,
@@ -8,8 +11,6 @@ import {
 } from '@nestjs/common';
 import { RegisterDto } from '@shared/dto';
 import { UserService } from '@user/user.service';
-import { Response } from 'express';
-import { map, mergeMap, Observable } from 'rxjs';
 
 @Controller('register')
 export class RegisterController {

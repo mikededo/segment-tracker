@@ -1,8 +1,7 @@
 import { Connection, createConnection } from 'mongoose';
 
-import { ConfigType } from '@nestjs/config';
-
 import mongoConfig from '@config/mongo.config';
+import { ConfigType } from '@nestjs/config';
 import { PROVIDERS } from '@shared/constants';
 
 export const dbConnectionProviders = [

@@ -4,6 +4,7 @@
     "outDir": "../../dist/packages/server",
     "baseUrl": "./src",
     "paths": {
+      "@auth/*": ["./auth/*"],
       "@config/*": ["./config/*"],
       "@database/*": ["./database/*"],
       "@models/*": ["./database/model/*"],

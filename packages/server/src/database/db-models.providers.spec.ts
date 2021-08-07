@@ -1,10 +1,10 @@
 import { Connection, Model } from 'mongoose';
 
+import { User } from '@models/user.model';
 import { Test, TestingModule } from '@nestjs/testing';
+import { PROVIDERS } from '@shared/constants';
 
-import { PROVIDERS } from '../shared/constants';
 import { dbModelsProviders } from './db-models.providers';
-import { User } from './model/user.model';
 
 describe('dbModelsProviders', () => {
   let connection: Connection;

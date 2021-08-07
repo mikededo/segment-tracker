@@ -41,16 +41,12 @@ describe('UserService', () => {
       lastName: 'Data',
     };
 
-    const createSpy = jest.spyOn(model, 'create').mockImplementation(() =>
-      Promise.resolve({
-        _id: '123',
-        ...data,
-      } as any),
-    );
+    const createSpy = jest
+      .spyOn(model, 'create')
+      .mockImplementation(() => Promise.resolve({ ...data } as any));
 
     const result = await firstValueFrom(service.register(data));
     expect(createSpy).toBeCalledWith({ ...data });
-    expect(result._id).toBeDefined();
   });
 
   it('findByUsername should return the user of the current username', async () => {
