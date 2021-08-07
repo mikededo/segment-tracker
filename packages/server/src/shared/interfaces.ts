@@ -1,3 +1,5 @@
+import { Request } from 'express';
+
 export interface UserFromClaims {
   readonly id: string;
 
@@ -12,4 +14,8 @@ export interface JwtUserPayload {
 
 export interface AccessToken {
   readonly token: string;
+}
+
+export interface AuthenticatedRequest extends Request {
+  readonly user: UserFromClaims;
 }
