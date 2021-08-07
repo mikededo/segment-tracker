@@ -34,6 +34,7 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {
+      '@auth': path.resolve(basePath, 'auth'),
       '@config': path.resolve(basePath, 'config'),
       '@database': path.resolve(basePath, 'database'),
       '@models': path.resolve(basePath, 'database', 'models'),

@@ -85,6 +85,9 @@ describe('RegisterController', () => {
         .mockReturnValue(of({} as User));
       const apiResponseMock = genApiResponseMock() as any;
 
+      // Expect one assertion for each check on error
+      expect.assertions(7);
+
       // try-catch block to handle the ConflictException
       try {
         await firstValueFrom(
