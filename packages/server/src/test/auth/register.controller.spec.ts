@@ -1,10 +1,11 @@
+import { firstValueFrom, of } from 'rxjs';
+
+import { RegisterController } from '@auth/register.controller';
 import { User } from '@database/model/user.model';
+import { RegisterDto } from '@dto/register';
 import { ConflictException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { RegisterDto } from '@shared/dto';
 import { UserService } from '@user/user.service';
-import { firstValueFrom, of } from 'rxjs';
-import { RegisterController } from './register.controller';
 
 describe('RegisterController', () => {
   let controller: RegisterController;

@@ -9,6 +9,7 @@ async function bootstrap() {
     logger: ['log', 'error', 'warn'],
   });
 
+  app.setGlobalPrefix('api/v1');
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
 

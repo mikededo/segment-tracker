@@ -19,7 +19,7 @@ export class LoginController {
       .login(req.user)
       .pipe(
         map(({ token }) =>
-          res.header('Authorization', `Bearer ${token}`).json().send(),
+          res.header('Authorization', `Bearer ${token}`).json(token).send(),
         ),
       );
   }

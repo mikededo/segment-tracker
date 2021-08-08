@@ -1,9 +1,10 @@
-import { from, Observable } from 'rxjs';
+import { EMPTY, from, mergeMap, Observable, of, throwIfEmpty } from 'rxjs';
 
 import { User, UserModel } from '@models/user.model';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PROVIDERS } from '@shared/constants';
-import { RegisterDto } from '@shared/dto';
+import { RegisterDto } from '@dto/register';
+import { UpdateUserDto } from '@shared/dto/update.users';
 
 @Injectable()
 export class UserService {
@@ -45,5 +46,19 @@ export class UserService {
    */
   register(data: RegisterDto): Observable<User> {
     return from(this.model.create({ ...data }));
+  }
+
+  /**
+   * Updates the valued given in `data` if the there's a user with
+   * `id` in the database
+   * @param id The id of the user to update
+   * @param data The data to update
+   * @returns An observable to a user with the updated values
+   */
+  update(id: string, data: UpdateUserDto): Observable<User> {
+    return from(this.model.findByIdAndUpdate(id, { ...data }).exec()).pipe(
+      mergeMap((u) => (u ? of(u) : EMPTY)),
+      throwIfEmpty(() => new NotFoundException(`user:${id} not found`)),
+    );
   }
 }

@@ -1,10 +1,10 @@
-import { ConfigModule } from '@nestjs/config';
-import { Test, TestingModule } from '@nestjs/testing';
 import { Connection, createConnection } from 'mongoose';
 
-import mongoConfig from '../config/mongo.config';
-import { PROVIDERS } from '../shared/constants';
-import { dbConnectionProviders } from './db-connection.providers';
+import mongoConfig from '@config/mongo.config';
+import { dbConnectionProviders } from '@database/db-connection.providers';
+import { ConfigModule } from '@nestjs/config';
+import { Test, TestingModule } from '@nestjs/testing';
+import { PROVIDERS } from '@shared/constants';
 
 jest.mock('mongoose', () => ({
   createConnection: jest
@@ -33,7 +33,7 @@ describe('dbConnectionProviders', () => {
     expect(createConnection).toHaveBeenCalledWith('mongodb://localhost', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useFindAndModify: true,
+      useFindAndModify: false,
     });
   });
 });

@@ -1,9 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { Model } from 'mongoose';
-import { UserService } from './user.service';
-import { PROVIDERS } from '../shared/constants';
-import { User } from '../database/model/user.model';
 import { firstValueFrom } from 'rxjs';
+
+import { User } from '@database/model/user.model';
+import { Test, TestingModule } from '@nestjs/testing';
+import { PROVIDERS } from '@shared/constants';
+import { UserService } from '@user/user.service';
+import { NotFoundException } from '@nestjs/common';
 
 describe('UserService', () => {
   let service: UserService;
@@ -20,6 +22,7 @@ describe('UserService', () => {
             findById: jest.fn(),
             exists: jest.fn(),
             create: jest.fn(),
+            findByIdAndUpdate: jest.fn(),
           },
         },
       ],
@@ -46,7 +49,52 @@ describe('UserService', () => {
       .mockImplementation(() => Promise.resolve({ ...data } as any));
 
     const result = await firstValueFrom(service.register(data));
+
     expect(createSpy).toBeCalledWith({ ...data });
+    expect(result).toBeDefined();
+  });
+
+  describe('save', () => {
+    it('should update an user if it exists', (done) => {
+      const updated = {
+        password: '123456',
+        firstName: 'Updated',
+        lastName: 'Test',
+      };
+
+      jest.spyOn(model, 'findByIdAndUpdate').mockReturnValue({
+        exec: jest.fn().mockResolvedValue(updated) as any,
+      } as any);
+
+      service.update('61100878bda459155a1f5198', updated).subscribe({
+        next: (data) => {
+          expect(data).toBeTruthy();
+          expect(model.findByIdAndUpdate).toBeCalled();
+        },
+        complete: done(),
+      });
+    });
+
+    it('should throw a NotFoundException if user does not exist', (done) => {
+      const updated = {
+        password: '123456',
+        firstName: 'Updated',
+        lastName: 'Test',
+      };
+
+      jest.spyOn(model, 'findByIdAndUpdate').mockReturnValue({
+        exec: jest.fn().mockResolvedValue(null) as any,
+      } as any);
+
+      service.update('61100878bda459155a1f5198', updated).subscribe({
+        error: (error) => {
+          expect(error).toBeDefined();
+          expect(error).toBeInstanceOf(NotFoundException);
+          expect(model.findByIdAndUpdate).toHaveBeenCalledTimes(1);
+        },
+        complete: done(),
+      });
+    });
   });
 
   it('findByUsername should return the user of the current username', async () => {

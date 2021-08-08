@@ -1,12 +1,11 @@
 import { Response } from 'express';
 import { lastValueFrom, of } from 'rxjs';
 
+import { AuthService } from '@auth/auth.service';
+import { LoginController } from '@auth/login.controller';
+import { createMock } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AccessToken } from '@shared/interfaces';
-
-import { AuthService } from './auth.service';
-import { LoginController } from './login.controller';
-import { createMock } from '@golevelup/ts-jest';
 
 describe('LoginController', () => {
   let controller: LoginController;

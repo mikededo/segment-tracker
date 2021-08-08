@@ -5,9 +5,10 @@
   "moduleNameMapper": {
     "^@auth/(.*)$": ["<rootDir>/src/auth/$1"],
     "^@shared/(.*)$": ["<rootDir>/src/shared/$1"],
+    "^@dto/(.*)$": ["<rootDir>/src/shared/dto/$1"],
     "^@config/(.*)$": ["<rootDir>/src/config/$1"],
     "^@database/(.*)$": ["<rootDir>/src/database/$1"],
-    "^@models/(.*)$": ["<rootDir>/src/database/models/$1"],
+    "^@models/(.*)$": ["<rootDir>/src/database/model/$1"],
     "^@user/(.*)$": ["<rootDir>/src/user/$1"]
   },
   "modulePaths": ["<rootDir>"],

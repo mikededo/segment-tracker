@@ -26,7 +26,7 @@ import {
   comparePassword,
   userNameHook,
   UserSchema,
-} from './user.model';
+} from '@models/user.model';
 
 describe('UserSchema', () => {
   it('should call Schema.virtual', () => {

@@ -1,10 +1,9 @@
 import { Connection, Model } from 'mongoose';
 
+import { dbModelsProviders } from '@database/db-models.providers';
 import { User } from '@models/user.model';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PROVIDERS } from '@shared/constants';
-
-import { dbModelsProviders } from './db-models.providers';
 
 describe('dbModelsProviders', () => {
   let connection: Connection;

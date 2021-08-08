@@ -39,6 +39,7 @@ module.exports = {
       '@database': path.resolve(basePath, 'database'),
       '@models': path.resolve(basePath, 'database', 'models'),
       '@shared': path.resolve(basePath, 'shared'),
+      '@dto': path.resolve(basePath, 'shared', 'dto'),
       '@user': path.resolve(basePath, 'user'),
     },
   },

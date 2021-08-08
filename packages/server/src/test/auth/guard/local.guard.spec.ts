@@ -1,7 +1,7 @@
 import { ExecutionContext } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { LocalGuard } from './local.guard';
+import { LocalGuard } from '@auth/guard/local.guard';
 
 describe('LocalGuard', () => {
   let guard: LocalGuard;

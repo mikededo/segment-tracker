@@ -1,6 +1,6 @@
 import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { JwtGuard } from './jwt.guard';
+import { JwtGuard } from '@auth/guard/jwt.guard';
 
 describe('JwtGuard', () => {
   let guard: JwtGuard;

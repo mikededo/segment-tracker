@@ -1,10 +1,11 @@
+import { of } from 'rxjs';
+
+import { AuthService } from '@auth/auth.service';
 import { User } from '@database/model/user.model';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from '@user/user.service';
-import { of } from 'rxjs';
-import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let authService: AuthService;

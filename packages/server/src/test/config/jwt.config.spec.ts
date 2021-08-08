@@ -1,6 +1,6 @@
+import jwtConfig from '@config/jwt.config';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import jwtConfig from './jwt.config';
 
 describe('jwtConfig', () => {
   let config: ConfigType<typeof jwtConfig>;

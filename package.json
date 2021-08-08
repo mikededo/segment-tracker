@@ -5,8 +5,9 @@
   "private": true,
   "license": "ISC",
   "scripts": {
-    "prebuild:server": "rimraf dist/server",
+    "prebuild:server": "npm run clean:server",
     "build:server": "webpack build ./webpack.server.js",
+    "prestart:server": "npm run clean:server",
     "start:server": "webpack --config ./webpack.server.js --watch",
     "start:server:debug": "webpack --config ./webpack.server.js --debug --watch",
     "start:server:prod": "node dist/main",
@@ -20,6 +21,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./packages/server/test/jest-e2e.json",
+    "clean:server": "rimraf dist/server",
     "lint": "eslint \"{src,packages,libs,test}/**/*.ts\" --fix",
     "format": "prettier --write \"packages/**/*.ts\" \"libs/**/*.ts\""
   },

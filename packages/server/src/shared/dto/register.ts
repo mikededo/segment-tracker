@@ -6,7 +6,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { Gender, Level } from './enums';
+import { Gender, Level } from '../enums';
 
 export class RegisterDto {
   @IsNotEmpty()

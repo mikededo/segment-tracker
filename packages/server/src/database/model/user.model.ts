@@ -29,7 +29,7 @@ export type UserModel = Model<User>;
 
 export const UserSchema = new Schema<User>(
   {
-    email: SchemaTypes.String,
+    email: { type: SchemaTypes.String, immutable: true },
     password: { type: SchemaTypes.String },
     firstName: SchemaTypes.String,
     lastName: { type: SchemaTypes.String, required: false },
@@ -67,6 +67,8 @@ export async function beforeSave(next: () => any) {
 
 // Add the hook before the user is saved
 UserSchema.pre<User>('save', beforeSave);
+// And before the user is updated
+UserSchema.pre<User>('updateOne', beforeSave);
 
 export function comparePassword(password: string): Observable<boolean> {
   return from(compare(password, this.password));

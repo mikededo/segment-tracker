@@ -4,7 +4,7 @@ import jwtConfig from '@config/jwt.config';
 import { ConfigType } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { JwtStrategy } from './jwt.strategy';
+import { JwtStrategy } from '@auth/strategy/jwt.strategy';
 
 describe('JwtStrategy', () => {
   let strategy: JwtStrategy;
@@ -32,7 +32,7 @@ describe('JwtStrategy', () => {
     expect(config.expireTime).toBeDefined();
     expect(config.secretKey).toBeDefined();
 
-    const user = await strategy.validate({
+    const user = strategy.validate({
       ui: 'testid',
       ue: 'mock@data.com',
     });
@@ -48,7 +48,11 @@ describe('JwtStrategy', () => {
     beforeEach(() => {
       local = Object.getPrototypeOf(JwtStrategy);
       parentMock = jest.fn();
-      Object.setPrototypeOf(local, parentMock);
+      Object.setPrototypeOf(JwtStrategy, parentMock);
+    });
+
+    afterEach(() => {
+      Object.setPrototypeOf(JwtStrategy, local);
     });
 
     it('should call super()', () => {

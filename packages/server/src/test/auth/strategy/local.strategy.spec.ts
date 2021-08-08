@@ -3,7 +3,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserFromClaims } from '@shared/interfaces';
 import { from, of } from 'rxjs';
-import { LocalStrategy } from './local.strategy';
+import { LocalStrategy } from '@auth/strategy/local.strategy';
 
 describe('LocalStrategy', () => {
   let strategy: LocalStrategy;

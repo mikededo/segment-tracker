@@ -1,4 +1,4 @@
-import { baseSerializer } from './helpers';
+import { baseSerializer } from '@shared/helpers';
 
 describe('BaseSerializer', () => {
   it('should remove the _id prop of an object', () => {
