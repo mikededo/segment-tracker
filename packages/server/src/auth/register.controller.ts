@@ -9,16 +9,13 @@ import {
   HttpStatus,
   Post,
   Res,
-  UseInterceptors,
 } from '@nestjs/common';
-import { ExcludePasswordInterceptor } from '@shared/interceptors/exclude.password.interceptor';
 import { UserService } from '@user/user.service';
 
 @Controller('register')
 export class RegisterController {
   constructor(private userService: UserService) {}
 
-  @UseInterceptors(ExcludePasswordInterceptor)
   @Post()
   register(
     @Body() body: RegisterDto,
