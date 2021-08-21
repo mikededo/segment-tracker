@@ -13,7 +13,7 @@
       "@user/*": ["./user/*"]
     }
   },
-  "exclude": ["node_modules", "dist", "test", "packages/client"],
-  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "dist", "packages/client"],
+  "include": ["./src/**/*", "./test"],
   "extends": "../../tsconfig.json"
 }
