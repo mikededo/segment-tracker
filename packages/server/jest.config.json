@@ -9,7 +9,8 @@
     "^@config/(.*)$": ["<rootDir>/src/config/$1"],
     "^@database/(.*)$": ["<rootDir>/src/database/$1"],
     "^@models/(.*)$": ["<rootDir>/src/database/model/$1"],
-    "^@user/(.*)$": ["<rootDir>/src/user/$1"]
+    "^@user/(.*)$": ["<rootDir>/src/user/$1"],
+    "^@segment/(.*)$": ["<rootDir>/src/segment/$1"]
   },
   "modulePaths": ["<rootDir>"],
   "rootDir": ".",

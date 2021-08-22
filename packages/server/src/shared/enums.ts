@@ -10,3 +10,9 @@ export enum Level {
   ADVANCED = 'ADVANCED',
   EXPERT = 'EXPERT',
 }
+
+export enum SegmentType {
+  HILLY = 'HILLY',
+  FLAT = 'FLAT',
+  DOWNHILL = 'DOWNHILL',
+}

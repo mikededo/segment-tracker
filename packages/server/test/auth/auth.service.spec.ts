@@ -49,7 +49,7 @@ describe('AuthService', () => {
       expect(error.message).toBe('username or password not matched');
     };
 
-    it('should work if user email is found', async () => {
+    it('should work if user email is found', (done) => {
       jest
         .spyOn(userService, 'findByEmail')
         .mockImplementation((email: string) =>
@@ -60,14 +60,15 @@ describe('AuthService', () => {
           } as User),
         );
 
-      authService
-        .validateUser('mock@data.com', 'password')
-        .subscribe((data) => {
+      authService.validateUser('mock@data.com', 'password').subscribe({
+        next: (data) => {
           expect(data.email).toBe('mock@data.com');
-        });
+        },
+        complete: done(),
+      });
     });
 
-    it('should throw an exception if user email is found but password does not match', async () => {
+    it('should throw an exception if user email is found but password does not match', (done) => {
       jest
         .spyOn(userService, 'findByEmail')
         .mockImplementation((email: string) =>
@@ -80,22 +81,24 @@ describe('AuthService', () => {
 
       authService.validateUser('mock@data.com', 'password').subscribe({
         error: onError,
+        complete: done(),
       });
     });
 
-    it('should throw an exception if user emails is not found', async () => {
+    it('should throw an exception if user emails is not found', (done) => {
       jest
         .spyOn(userService, 'findByEmail')
         .mockImplementation((email: string) => of(null as User));
 
       authService.validateUser('mock@data.com', 'password').subscribe({
         error: onError,
+        complete: done(),
       });
     });
   });
 
   describe('JwtToken login', () => {
-    it('should return signed token', async () => {
+    it('should return signed token', (done) => {
       jest.spyOn(jwtService, 'signAsync').mockResolvedValue('test_token');
 
       authService
@@ -112,6 +115,7 @@ describe('AuthService', () => {
               ue: 'mock@data.com',
             });
           },
+          complete: done(),
         });
     });
   });

@@ -42,7 +42,7 @@ describe('UserController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('Get', () => {
+  describe('getUser', () => {
     it('should return the user given their id', async () => {
       const findByIdSpy = jest
         .spyOn(service, 'findById')
@@ -67,7 +67,7 @@ describe('UserController', () => {
     });
   });
 
-  describe('Put', () => {
+  describe('updateUser', () => {
     const updatedData: UpdateUserDto = {
       firstName: 'ModifiedJest',
       lastName: 'ModifiedTest',

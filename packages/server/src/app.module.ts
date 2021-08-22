@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { AuthModule } from '@auth/auth.module';
 import { UserService } from '@user/user.service';
 import { UserModule } from './user/user.module';
+import { SegmentModule } from './segment/segment.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UserModule } from './user/user.module';
     RouterModule.register([{ path: 'auth', module: AuthModule }]),
     AuthModule,
     UserModule,
+    SegmentModule,
   ],
   controllers: [AppController],
   providers: [AppService, UserService],

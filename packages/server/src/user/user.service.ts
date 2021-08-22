@@ -56,11 +56,10 @@ export class UserService {
    * @returns An observable to a user with the updated values
    */
   update(id: string, data: UpdateUserDto): Observable<User> {
-    return this.findById(id)
-      .pipe(
-        mergeMap((u) => (u ? of(u) : EMPTY)),
-        throwIfEmpty(() => new NotFoundException(`user:${id} not found`)),
-      )
-      .pipe(mergeMap((u) => from(Object.assign(u, data).save())));
+    return this.findById(id).pipe(
+      mergeMap((u) => (u ? of(u) : EMPTY)),
+      throwIfEmpty(() => new NotFoundException(`user:${id} not found`)),
+      mergeMap((u) => Object.assign(u, data).save()),
+    );
   }
 }

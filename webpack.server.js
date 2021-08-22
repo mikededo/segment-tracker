@@ -41,6 +41,7 @@ module.exports = {
       '@shared': path.resolve(basePath, 'shared'),
       '@dto': path.resolve(basePath, 'shared', 'dto'),
       '@user': path.resolve(basePath, 'user'),
+      '@segment': path.resolve(basePath, 'segment'),
     },
   },
   plugins: [

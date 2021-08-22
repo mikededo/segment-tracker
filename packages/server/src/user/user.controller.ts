@@ -8,7 +8,7 @@ import {
   Get,
   HttpStatus,
   Param,
-  Put,
+  Patch,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -31,8 +31,8 @@ export class UserController {
       .pipe(map((found) => res.status(HttpStatus.OK).send(found)));
   }
 
+  @Patch(':id')
   @UseGuards(JwtGuard)
-  @Put(':id')
   updateUser(
     @Param('id', new ParseObjectIdPipe()) id: string,
     @Body() user: UpdateUserDto,
