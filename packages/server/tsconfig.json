@@ -15,6 +15,6 @@
     }
   },
   "exclude": ["node_modules", "dist", "packages/client"],
-  "include": ["./src/**/*", "./test"],
+  "include": ["./src/**/*", "./test/**/*"],
   "extends": "../../tsconfig.json"
 }
