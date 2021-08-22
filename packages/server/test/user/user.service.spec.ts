@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 
 import { User } from '@database/model/user.model';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -22,7 +22,6 @@ describe('UserService', () => {
             findById: jest.fn(),
             exists: jest.fn(),
             create: jest.fn(),
-            findByIdAndUpdate: jest.fn(),
           },
         },
       ],
@@ -62,14 +61,17 @@ describe('UserService', () => {
         lastName: 'Test',
       };
 
-      jest.spyOn(model, 'findByIdAndUpdate').mockReturnValue({
-        exec: jest.fn().mockResolvedValue(updated) as any,
+      jest.spyOn(model, 'findById').mockReturnValue({
+        exec: jest.fn().mockResolvedValue({
+          ...updated,
+          save: jest.fn().mockReturnValue(of(updated)),
+        }) as any,
       } as any);
 
       service.update('61100878bda459155a1f5198', updated).subscribe({
         next: (data) => {
           expect(data).toBeTruthy();
-          expect(model.findByIdAndUpdate).toBeCalled();
+          expect(model.findById).toBeCalled();
         },
         complete: done(),
       });
@@ -82,7 +84,7 @@ describe('UserService', () => {
         lastName: 'Test',
       };
 
-      jest.spyOn(model, 'findByIdAndUpdate').mockReturnValue({
+      jest.spyOn(model, 'findById').mockReturnValue({
         exec: jest.fn().mockResolvedValue(null) as any,
       } as any);
 
@@ -90,7 +92,7 @@ describe('UserService', () => {
         error: (error) => {
           expect(error).toBeDefined();
           expect(error).toBeInstanceOf(NotFoundException);
-          expect(model.findByIdAndUpdate).toHaveBeenCalledTimes(1);
+          expect(model.findById).toHaveBeenCalledTimes(1);
         },
         complete: done(),
       });

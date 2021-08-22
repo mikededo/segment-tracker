@@ -23,7 +23,7 @@
     "test:e2e": "jest --config ./packages/server/test/jest-e2e.json",
     "clean:server": "rimraf dist/server",
     "lint": "eslint \"{src,packages,libs,test}/**/*.ts\" --fix",
-    "format": "prettier --write \"packages/**/*.ts\" \"libs/**/*.ts\""
+    "format": "prettier --write \"packages/**/*.ts\""
   },
   "dependencies": {
     "@golevelup/ts-jest": "^0.3.1",
