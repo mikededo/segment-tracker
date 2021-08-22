@@ -1,6 +1,7 @@
-import { SegmentType } from '@shared/enums';
 import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
-import { SegmentStatSchema } from './segment.stat.model';
+
+import { SegmentType } from '@shared/enums';
+
 import { User } from './user.model';
 
 export interface Segment extends Document {

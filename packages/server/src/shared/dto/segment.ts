@@ -1,5 +1,6 @@
-import { SegmentType } from '@shared/enums';
 import { IsEnum, IsNotEmpty, IsOptional, Max, Min } from 'class-validator';
+
+import { SegmentType } from '@shared/enums';
 
 export class SegmentDto {
   @IsNotEmpty()

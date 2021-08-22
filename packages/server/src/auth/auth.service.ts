@@ -1,3 +1,5 @@
+import { EMPTY, from, map, mergeMap, Observable, of, throwIfEmpty } from 'rxjs';
+
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import {
@@ -6,7 +8,6 @@ import {
   UserFromClaims,
 } from '@shared/interfaces';
 import { UserService } from '@user/user.service';
-import { EMPTY, map, mergeMap, Observable, throwIfEmpty, of, from } from 'rxjs';
 
 @Injectable()
 export class AuthService {

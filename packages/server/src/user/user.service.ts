@@ -1,9 +1,9 @@
 import { EMPTY, from, mergeMap, Observable, of, throwIfEmpty } from 'rxjs';
 
+import { RegisterDto } from '@dto/register';
 import { User, UserModel } from '@models/user.model';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PROVIDERS } from '@shared/constants';
-import { RegisterDto } from '@dto/register';
 import { UpdateUserDto } from '@shared/dto/update.users';
 
 @Injectable()

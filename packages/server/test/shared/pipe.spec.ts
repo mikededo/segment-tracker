@@ -1,5 +1,6 @@
-import { BadRequestException } from '@nestjs/common';
 import * as mongoose from 'mongoose';
+
+import { BadRequestException } from '@nestjs/common';
 import { ParseObjectIdPipe } from '@shared/pipes';
 
 describe('ParseObjectIdPipe', () => {

@@ -4,12 +4,12 @@ import { lastValueFrom, of } from 'rxjs';
 import { Segment } from '@database/model/segment.model';
 import { SegmentStat } from '@database/model/segment.stat.model';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
+import { REQUEST } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import { FindAllSegmentsQuery } from '@segment/segment.interfaces';
 import { SegmentService } from '@segment/segment.service';
 import { PROVIDERS } from '@shared/constants';
 import { UserFromClaims } from '@shared/interfaces';
-import { REQUEST } from '@nestjs/core';
 
 describe('SegmentService', () => {
   let service: SegmentService;

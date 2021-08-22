@@ -10,12 +10,12 @@ import {
   NotFoundException,
   Scope,
 } from '@nestjs/common';
+import { REQUEST } from '@nestjs/core';
 import { PROVIDERS } from '@shared/constants';
+import { SegmentDto } from '@shared/dto/segment';
 import { AuthenticatedRequest } from '@shared/interfaces';
 
 import { FindAllSegmentsQuery } from './segment.interfaces';
-import { SegmentDto } from '@shared/dto/segment';
-import { REQUEST } from '@nestjs/core';
 
 @Injectable({ scope: Scope.REQUEST })
 export class SegmentService {

@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { map, Observable } from 'rxjs';
 
 import { JwtGuard } from '@auth/guard/jwt.guard';
+import { Segment } from '@database/model/segment.model';
 import {
   Body,
   Controller,
@@ -21,7 +22,6 @@ import { ParseObjectIdPipe } from '@shared/pipes';
 
 import { FindAllSegmentsQuery } from './segment.interfaces';
 import { SegmentService } from './segment.service';
-import { Segment } from '@database/model/segment.model';
 
 @UseGuards(JwtGuard)
 @Controller({ path: 'segment', scope: Scope.REQUEST })

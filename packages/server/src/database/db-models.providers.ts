@@ -1,9 +1,10 @@
 import { Connection } from 'mongoose';
 
 import { PROVIDERS } from '@shared/constants';
-import { createUserModel } from './model/user.model';
+
 import { createSegmentModel } from './model/segment.model';
 import { createSegmentStatModel } from './model/segment.stat.model';
+import { createUserModel } from './model/user.model';
 
 export const dbModelsProviders = [
   {

@@ -1,10 +1,9 @@
 import { mock } from 'jest-mock-extended';
 
+import { JwtStrategy } from '@auth/strategy/jwt.strategy';
 import jwtConfig from '@config/jwt.config';
 import { ConfigType } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-
-import { JwtStrategy } from '@auth/strategy/jwt.strategy';
 
 describe('JwtStrategy', () => {
   let strategy: JwtStrategy;

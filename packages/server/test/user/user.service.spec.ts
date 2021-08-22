@@ -2,10 +2,10 @@ import { Model } from 'mongoose';
 import { firstValueFrom, of } from 'rxjs';
 
 import { User } from '@database/model/user.model';
+import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PROVIDERS } from '@shared/constants';
 import { UserService } from '@user/user.service';
-import { NotFoundException } from '@nestjs/common';
 
 describe('UserService', () => {
   let service: UserService;

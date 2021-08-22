@@ -1,15 +1,15 @@
+import { Response } from 'express';
+import { lastValueFrom } from 'rxjs';
+
+import { Segment } from '@database/model/segment.model';
+import { createMock } from '@golevelup/ts-jest';
+import { HttpStatus } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { PROVIDERS } from '@shared/constants';
-import { UserFromClaims } from '@shared/interfaces';
 import { SegmentController } from '@segment/segment.controller';
 import { SegmentService } from '@segment/segment.service';
-import { SegmentServiceStub } from '../stub/segment.service.stub';
 import { SegmentDto } from '@shared/dto/segment';
-import { createMock } from '@golevelup/ts-jest';
-import { Response } from 'express';
-import { HttpStatus } from '@nestjs/common';
-import { lastValueFrom } from 'rxjs';
-import { Segment } from '@database/model/segment.model';
+
+import { SegmentServiceStub } from '../stub/segment.service.stub';
 
 describe('SegmentController', () => {
   let controller: SegmentController;

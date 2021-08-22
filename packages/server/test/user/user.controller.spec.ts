@@ -1,11 +1,10 @@
 import { firstValueFrom, lastValueFrom, Observable, of } from 'rxjs';
 
+import { User } from '@database/model/user.model';
 import { Test, TestingModule } from '@nestjs/testing';
-
+import { UpdateUserDto } from '@shared/dto/update.users';
 import { UserController } from '@user/user.controller';
 import { UserService } from '@user/user.service';
-import { User } from '@database/model/user.model';
-import { UpdateUserDto } from '@shared/dto/update.users';
 
 describe('UserController', () => {
   let controller: UserController;

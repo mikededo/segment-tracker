@@ -6,6 +6,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+
 import { Gender, Level } from '../enums';
 
 export class RegisterDto {

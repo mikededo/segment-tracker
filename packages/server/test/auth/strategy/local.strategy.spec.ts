@@ -1,9 +1,10 @@
+import { of } from 'rxjs';
+
 import { AuthService } from '@auth/auth.service';
+import { LocalStrategy } from '@auth/strategy/local.strategy';
 import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserFromClaims } from '@shared/interfaces';
-import { from, of } from 'rxjs';
-import { LocalStrategy } from '@auth/strategy/local.strategy';
 
 describe('LocalStrategy', () => {
   let strategy: LocalStrategy;

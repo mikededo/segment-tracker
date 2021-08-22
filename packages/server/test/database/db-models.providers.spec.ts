@@ -1,11 +1,11 @@
 import { Connection, Model } from 'mongoose';
 
 import { dbModelsProviders } from '@database/db-models.providers';
+import { Segment } from '@database/model/segment.model';
+import { SegmentStat } from '@database/model/segment.stat.model';
 import { User } from '@models/user.model';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PROVIDERS } from '@shared/constants';
-import { Segment } from '@database/model/segment.model';
-import { SegmentStat } from '@database/model/segment.stat.model';
 
 describe('dbModelsProviders', () => {
   let connection: Connection;
