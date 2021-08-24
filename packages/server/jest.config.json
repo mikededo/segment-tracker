@@ -1,0 +1,23 @@
+{
+  "collectCoverageFrom": ["**/*.(t|j)s"],
+  "coverageDirectory": "./coverage",
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "moduleNameMapper": {
+    "^@auth/(.*)$": ["<rootDir>/src/auth/$1"],
+    "^@shared/(.*)$": ["<rootDir>/src/shared/$1"],
+    "^@dto/(.*)$": ["<rootDir>/src/shared/dto/$1"],
+    "^@config/(.*)$": ["<rootDir>/src/config/$1"],
+    "^@database/(.*)$": ["<rootDir>/src/database/$1"],
+    "^@models/(.*)$": ["<rootDir>/src/database/model/$1"],
+    "^@user/(.*)$": ["<rootDir>/src/user/$1"],
+    "^@segment/(.*)$": ["<rootDir>/src/segment/$1"]
+  },
+  "modulePaths": ["<rootDir>"],
+  "rootDir": ".",
+  "roots": ["<rootDir>"],
+  "testEnvironment": "node",
+  "testRegex": ".*\\.spec\\.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  }
+}

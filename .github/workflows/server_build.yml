@@ -1,0 +1,42 @@
+name: Server build
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "./packages/server/**"
+
+jobs:
+  test:
+    name: Test server
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm run test:server
+  
+  build:
+    name: Build server
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: "npm"
+      - run: npm ci
+      - run: npm build:server

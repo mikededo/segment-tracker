@@ -1,9 +1,20 @@
 {
   "compilerOptions": {
     "declaration": false,
-    "outDir": "../../dist/packages/server"
+    "outDir": "../../dist/packages/server",
+    "baseUrl": "./src",
+    "paths": {
+      "@auth/*": ["./auth/*"],
+      "@config/*": ["./config/*"],
+      "@database/*": ["./database/*"],
+      "@models/*": ["./database/model/*"],
+      "@shared/*": ["./shared/*"],
+      "@dto/*": ["./shared/dto/*"],
+      "@user/*": ["./user/*"],
+      "@segment/*": ["./segment/*"]
+    }
   },
-  "exclude": ["node_modules", "dist", "test", "**/*spec.ts", "packages/client"],
-  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "dist", "packages/client"],
+  "include": ["./src/**/*", "./test/**/*"],
   "extends": "../../tsconfig.json"
 }
