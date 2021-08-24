@@ -6,7 +6,6 @@ on:
       - "main"
     paths:
       - "packages/server/**"
-  workflow_dispatch:
 
 jobs:
   test:
@@ -47,11 +46,11 @@ jobs:
           git config --local user.email "miquelddg@gmail.com"
           git config --local user.name "Miquel de Domingo"
           git add --all
-          git commit -m "Server build"
+          git commit -m "feat (server): added packages"
 
       - name: Push server output
         uses: ad-m/github-push-action@master
         with:
           branch: main
-          gitub_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           force: true
