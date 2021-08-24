@@ -79,6 +79,16 @@ export class SegmentController {
       .pipe(map(() => response.status(HttpStatus.NO_CONTENT).send()));
   }
 
+  @Get(':id/stats')
+  getStatsFrom(
+    @Param('id', new ParseObjectIdPipe()) id: string,
+    @Res() response: Response,
+  ): Observable<Response> {
+    return this.segmentService
+      .getStatsFrom(id)
+      .pipe(map((stats) => response.status(HttpStatus.OK).send(stats)));
+  }
+
   @Post(':id/stats')
   createStat(
     @Param('id', new ParseObjectIdPipe()) id: string,
@@ -97,13 +107,14 @@ export class SegmentController {
       );
   }
 
-  @Get(':id/stats')
-  getStatsFrom(
+  @Delete(':id/stats/:statId')
+  deleteStat(
     @Param('id', new ParseObjectIdPipe()) id: string,
+    @Param('statId', new ParseObjectIdPipe()) statId: string,
     @Res() response: Response,
   ): Observable<Response> {
     return this.segmentService
-      .getStatsFrom(id)
-      .pipe(map((stats) => response.status(HttpStatus.OK).send(stats)));
+      .deleteStatFrom(id, statId)
+      .pipe(map(() => response.status(HttpStatus.NO_CONTENT).send()));
   }
 }

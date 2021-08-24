@@ -70,8 +70,6 @@ describe('SegmentService', () => {
             deleteMany: jest.fn(),
             deleteOne: jest.fn(),
             updateOne: jest.fn(),
-            findOneAndUpdate: jest.fn(),
-            findOneAndDelete: jest.fn(),
           },
         },
         {
@@ -81,6 +79,8 @@ describe('SegmentService', () => {
             constructor: jest.fn(),
             find: jest.fn(),
             findOne: jest.fn(),
+            findByIdAndUpdate: jest.fn(),
+            findByIdAndDelete: jest.fn(),
             update: jest.fn(),
             create: jest.fn(),
             remove: jest.fn(),
@@ -88,8 +88,6 @@ describe('SegmentService', () => {
             deleteMany: jest.fn(),
             deleteOne: jest.fn(),
             updateOne: jest.fn(),
-            findOneAndUpdate: jest.fn(),
-            findOneAndDelete: jest.fn(),
           },
         },
         {
@@ -293,7 +291,7 @@ describe('SegmentService', () => {
       } as any;
 
       jest.spyOn(segmentModel, 'findById').mockReturnValue({
-        exec: jest.fn().mockResolvedValue({
+        exec: jest.fn().mockResolvedValueOnce({
           _id: '6121f0bb8ffd2b6fcd1c7375',
           name: 'Non updated segment',
           distance: 5.0,
@@ -319,7 +317,7 @@ describe('SegmentService', () => {
 
     it('should throw a NotFoundException if the segment does not exists', (done) => {
       jest.spyOn(segmentModel, 'findById').mockReturnValue({
-        exec: jest.fn().mockResolvedValue(null) as any,
+        exec: jest.fn().mockResolvedValueOnce(null) as any,
       } as any);
 
       expect.assertions(3);
@@ -365,7 +363,7 @@ describe('SegmentService', () => {
       } as any;
 
       jest.spyOn(segmentModel, 'findById').mockReturnValue({
-        exec: jest.fn().mockResolvedValue({
+        exec: jest.fn().mockResolvedValueOnce({
           ...segment,
           delete: jest.fn().mockResolvedValue(of(segment)),
         }),
@@ -387,7 +385,7 @@ describe('SegmentService', () => {
 
     it('should throw a NotFoundException if the segment does not exist', (done) => {
       jest.spyOn(segmentModel, 'findById').mockReturnValue({
-        exec: jest.fn().mockResolvedValue(null) as any,
+        exec: jest.fn().mockResolvedValueOnce(null) as any,
       } as any);
 
       expect.assertions(3);
@@ -446,7 +444,7 @@ describe('SegmentService', () => {
 
     it('should throw a NotFoundException if the segment does not exists', (done) => {
       jest.spyOn(segmentModel, 'findById').mockReturnValue({
-        exec: jest.fn().mockResolvedValue(null) as any,
+        exec: jest.fn().mockResolvedValueOnce(null) as any,
       } as any);
 
       expect.assertions(3);
@@ -503,7 +501,9 @@ describe('SegmentService', () => {
       jest.spyOn(segmentStatModel, 'find').mockImplementation(
         () =>
           ({
-            exec: jest.fn().mockReturnValueOnce(Promise.resolve([...stats])),
+            select: jest.fn().mockReturnValue({
+              exec: jest.fn().mockReturnValueOnce(Promise.resolve([...stats])),
+            }),
           } as any),
       );
 
@@ -519,7 +519,7 @@ describe('SegmentService', () => {
 
     it('should throw a NotFoundException if the segment does not exists', (done) => {
       jest.spyOn(segmentModel, 'findById').mockReturnValue({
-        exec: jest.fn().mockResolvedValue(null) as any,
+        exec: jest.fn().mockResolvedValueOnce(null) as any,
       } as any);
 
       expect.assertions(3);
@@ -541,6 +541,166 @@ describe('SegmentService', () => {
 
       service.getStatsFrom('6121f0bb8ffd2b6fcd1c7376').subscribe({
         error: onForbidden,
+        complete: done(),
+      });
+    });
+  });
+
+  describe('updateStatFrom', () => {
+    it('should update a stat', async () => {
+      const updated = {
+        _id: '6121f0bb8ffd2b6fcd1d7396',
+        date: new Date(),
+        duration: 1000,
+        segment: { _id: 'segment.mock.id' },
+      } as any;
+
+      jest.spyOn(segmentModel, 'findById').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce({
+          _id: 'segment.mock.id',
+          owner: { _id: 'mock.id' },
+        } as any),
+      } as any);
+
+      jest
+        .spyOn(segmentStatModel, 'findByIdAndUpdate')
+        .mockImplementation(() => Promise.resolve({ ...updated }) as any);
+
+      const result = await lastValueFrom(
+        service.updateStatFrom(
+          'segment.mock.id',
+          '6121f0bb8ffd2b6fcd1d7396',
+          updated,
+        ),
+      );
+
+      expect(result).toBeDefined();
+      expect(result._id).toBe('6121f0bb8ffd2b6fcd1d7396');
+      expect(segmentStatModel.findByIdAndUpdate).toBeCalledWith(
+        '6121f0bb8ffd2b6fcd1d7396',
+        { ...updated },
+      );
+    });
+
+    it('should throw a NotFoundException if the segment does not exists', (done) => {
+      jest.spyOn(segmentModel, 'findById').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce(null) as any,
+      } as any);
+
+      expect.assertions(3);
+
+      service
+        .updateStatFrom('', '', {} as any)
+        .subscribe({ error: onNotFound, complete: done() });
+    });
+
+    it('should throw ForbiddenException if user does not own the segment', (done) => {
+      jest.spyOn(segmentModel, 'findById').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce({
+          ...segments[0],
+          owner: { _id: 'invalid.id' },
+        } as any),
+      } as any);
+
+      expect.assertions(3);
+
+      service.updateStatFrom('', '', {} as any).subscribe({
+        error: onForbidden,
+        complete: done(),
+      });
+    });
+
+    it('should throw NotFoundException if the segment stat does not exist', (done) => {
+      jest.spyOn(segmentModel, 'findById').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce({ owner: { _id: 'mock.id' } }),
+      } as any);
+      jest
+        .spyOn(segmentStatModel, 'findByIdAndUpdate')
+        .mockResolvedValueOnce(null);
+
+      expect.assertions(3);
+
+      service.updateStatFrom('', '', {} as any).subscribe({
+        error: (error) => {
+          expect(error).toBeDefined();
+          expect(error).toBeInstanceOf(NotFoundException);
+          expect(error.message).toBe('segment: not found');
+        },
+        complete: done(),
+      });
+    });
+  });
+
+  describe('deleteStatFrom', () => {
+    it('should remove a stat', async () => {
+      jest.spyOn(segmentModel, 'findById').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce({
+          _id: 'segment.mock.id',
+          owner: { _id: 'mock.id' },
+        } as any),
+      } as any);
+
+      jest
+        .spyOn(segmentStatModel, 'findByIdAndDelete')
+        .mockImplementation(
+          () => Promise.resolve({ _id: '6121f0bb8ffd2b6fcd1d7396' }) as any,
+        );
+
+      const result = await lastValueFrom(
+        service.deleteStatFrom('segment.mock.id', '6121f0bb8ffd2b6fcd1d7396'),
+      );
+
+      expect(result).toBeDefined();
+      expect(result._id).toBe('6121f0bb8ffd2b6fcd1d7396');
+      expect(segmentStatModel.findByIdAndDelete).toBeCalledWith(
+        '6121f0bb8ffd2b6fcd1d7396',
+      );
+    });
+
+    it('should throw a NotFoundException if the segment does not exists', (done) => {
+      jest.spyOn(segmentModel, 'findById').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce(null) as any,
+      } as any);
+
+      expect.assertions(3);
+
+      service
+        .deleteStatFrom('', '')
+        .subscribe({ error: onNotFound, complete: done() });
+    });
+
+    it('should throw ForbiddenException if user does not own the segment', (done) => {
+      jest.spyOn(segmentModel, 'findById').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce({
+          ...segments[0],
+          owner: { _id: 'invalid.id' },
+        } as any),
+      } as any);
+
+      expect.assertions(3);
+
+      service.deleteStatFrom('', '').subscribe({
+        error: onForbidden,
+        complete: done(),
+      });
+    });
+
+    it('should throw NotFoundException if the segment stat does not exist', (done) => {
+      jest.spyOn(segmentModel, 'findById').mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce({ owner: { _id: 'mock.id' } }),
+      } as any);
+      jest
+        .spyOn(segmentStatModel, 'findByIdAndDelete')
+        .mockResolvedValueOnce(null);
+
+      expect.assertions(3);
+
+      service.deleteStatFrom('', '').subscribe({
+        error: (error) => {
+          expect(error).toBeDefined();
+          expect(error).toBeInstanceOf(NotFoundException);
+          expect(error.message).toBe('segment: not found');
+        },
         complete: done(),
       });
     });

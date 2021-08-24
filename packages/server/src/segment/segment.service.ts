@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { EMPTY, from, mergeMap, Observable, of, throwIfEmpty } from 'rxjs';
+import { EMPTY, from, map, mergeMap, Observable, of, throwIfEmpty } from 'rxjs';
 
 import { Segment } from '@database/model/segment.model';
 import { SegmentStat } from '@database/model/segment.stat.model';
@@ -160,6 +160,31 @@ export class SegmentService {
   }
 
   /**
+   * Returns all the stats of the given segment
+   *
+   * @param id The if of the segment to search the stats for
+   * @returns An observable to the list of found stats
+   * @throws {NotFoundException} If the id does not belong
+   * to any segment
+   */
+  getStatsFrom(id: string): Observable<SegmentStat[]> {
+    return this.findById(id).pipe(
+      mergeMap((s) => this.checkOwnage(s)),
+      throwIfEmpty(() => new NotFoundException(`segment:${id} not found`)),
+      mergeMap((segment) => {
+        return from(
+          this.segmentStatModel
+            .find({
+              segment: { _id: segment._id },
+            })
+            .select('-segment')
+            .exec(),
+        );
+      }),
+    );
+  }
+
+  /**
    * Creates a new stat for the given segment
    *
    * @param id The id of the segment to add a stat for
@@ -184,27 +209,55 @@ export class SegmentService {
   }
 
   /**
-   * Returns all the stats of the given segment
+   * Updates a stat of a segment
    *
-   * @param id The if of the segment to search the stats for
-   * @returns An observable to the list of found stats
+   * @param id The id of the segment to update the stat from
+   * @param statId The stat id to be updated
+   * @param data The data of the stat to update
+   * @returns An observable to the updated segment stat
    * @throws {NotFoundException} If the id does not belong
    * to any segment
+   * @throws {NotFoundException} If the statId does not belong
+   * to any segment stat
    */
-  getStatsFrom(id: string): Observable<SegmentStat[]> {
+  updateStatFrom(
+    id: string,
+    statId: string,
+    data: SegmentStatDto,
+  ): Observable<SegmentStat> {
     return this.findById(id).pipe(
       mergeMap((s) => this.checkOwnage(s)),
       throwIfEmpty(() => new NotFoundException(`segment:${id} not found`)),
-      mergeMap((segment) => {
-        return from(
-          this.segmentStatModel
-            .find({
-              segment: { _id: segment._id },
-            })
-            .select('-segment')
-            .exec(),
-        );
-      }),
+      mergeMap(() =>
+        from(this.segmentStatModel.findByIdAndUpdate(statId, data)).pipe(
+          mergeMap((s) => (s ? of(s) : EMPTY)),
+          throwIfEmpty(() => new NotFoundException(`segment:${id} not found`)),
+        ),
+      ),
+    );
+  }
+
+  /**
+   * Deletes a stat of a segment
+   *
+   * @param id The id of the segment to delete the stat from
+   * @param statId The stat id to be deleted
+   * @returns An observable to the deleted segment stat
+   * @throws {NotFoundException} If the id does not belong
+   * to any segment
+   * @throws {NotFoundException} If the statId does not belong
+   * to any segment stat
+   */
+  deleteStatFrom(id: string, statId: string): Observable<SegmentStat> {
+    return this.findById(id).pipe(
+      mergeMap((s) => this.checkOwnage(s)),
+      throwIfEmpty(() => new NotFoundException(`segment:${id} not found`)),
+      mergeMap(() =>
+        from(this.segmentStatModel.findByIdAndDelete(statId)).pipe(
+          mergeMap((s) => (s ? of(s) : EMPTY)),
+          throwIfEmpty(() => new NotFoundException(`segment:${id} not found`)),
+        ),
+      ),
     );
   }
 }

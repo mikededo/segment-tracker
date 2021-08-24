@@ -44,16 +44,19 @@ export class SegmentServiceStub
 
   private segmentStats: SegmentStat[] = [
     {
+      _id: '6121f0bb8ffd2b6fcd1d7396',
       duration: 10000,
       segment: { _id: '6121f0bb8ffd2b6fcd1c7396' },
       date: new Date(2021, 6, 1),
     } as SegmentStat,
     {
+      _id: '6121f0bb8ffd2b6fcd1d7397',
       duration: 9500,
       segment: { _id: '6121f0bb8ffd2b6fcd1c7396' },
       date: new Date(2021, 6, 3),
     } as SegmentStat,
     {
+      _id: '6121f0bb8ffd2b6fcd1d7398',
       duration: 9750,
       segment: { _id: '6121f0bb8ffd2b6fcd1c7396' },
       date: new Date(2021, 6, 5),
@@ -120,5 +123,26 @@ export class SegmentServiceStub
 
   getStatsFrom(id: string): Observable<SegmentStat[]> {
     return of(this.segmentStats.filter((stat) => stat.segment._id === id));
+  }
+
+  updateStatFrom(
+    id: string,
+    statId: string,
+    data: SegmentStatDto,
+  ): Observable<SegmentStat> {
+    return of({
+      ...this.segmentStats.find(
+        (stat) => stat._id === statId && stat.segment._id === id,
+      ),
+      ...data,
+    } as SegmentStat);
+  }
+
+  deleteStatFrom(id: string, statId: string): Observable<SegmentStat> {
+    return of(
+      this.segmentStats.find(
+        (stat) => stat._id === statId && stat.segment._id === id,
+      ),
+    );
   }
 }
