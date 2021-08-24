@@ -18,13 +18,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { SegmentDto } from '@shared/dto/segment';
+import { SegmentStatDto } from '@shared/dto/segment.stat';
 import { ParseObjectIdPipe } from '@shared/pipes';
 
 import { FindAllSegmentsQuery } from './segment.interfaces';
 import { SegmentService } from './segment.service';
 
 @UseGuards(JwtGuard)
-@Controller({ path: 'segment', scope: Scope.REQUEST })
+@Controller({ path: 'segments', scope: Scope.REQUEST })
 export class SegmentController {
   constructor(private segmentService: SegmentService) {}
 
@@ -76,5 +77,33 @@ export class SegmentController {
     return this.segmentService
       .delete(id)
       .pipe(map(() => response.status(HttpStatus.NO_CONTENT).send()));
+  }
+
+  @Post(':id/stats')
+  createStat(
+    @Param('id', new ParseObjectIdPipe()) id: string,
+    @Body() body: SegmentStatDto,
+    @Res() response: Response,
+  ): Observable<Response> {
+    return this.segmentService
+      .createStatFor(id, body)
+      .pipe(
+        map((stat) =>
+          response
+            .location(`/segments/${id}/stats/${stat._id}`)
+            .status(HttpStatus.CREATED)
+            .send(stat),
+        ),
+      );
+  }
+
+  @Get(':id/stats')
+  getStatsFrom(
+    @Param('id', new ParseObjectIdPipe()) id: string,
+    @Res() response: Response,
+  ): Observable<Response> {
+    return this.segmentService
+      .getStatsFrom(id)
+      .pipe(map((stats) => response.status(HttpStatus.OK).send(stats)));
   }
 }

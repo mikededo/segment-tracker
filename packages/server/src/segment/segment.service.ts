@@ -16,6 +16,7 @@ import { SegmentDto } from '@shared/dto/segment';
 import { AuthenticatedRequest } from '@shared/interfaces';
 
 import { FindAllSegmentsQuery } from './segment.interfaces';
+import { SegmentStatDto } from '@shared/dto/segment.stat';
 
 @Injectable({ scope: Scope.REQUEST })
 export class SegmentService {
@@ -142,9 +143,9 @@ export class SegmentService {
   /**
    * Deletes an existing segment
    *
-   * @param id The if of the segement to delete
+   * @param id The id of the segment to delete
    * @returns An observable to the deleted segment
-   * @throws {NotFoundException} If the id does not beong
+   * @throws {NotFoundException} If the id does not belong
    * to any segment
    */
   delete(id: string): Observable<Segment> {
@@ -154,6 +155,55 @@ export class SegmentService {
       mergeMap((s) => {
         s.delete();
         return of(s);
+      }),
+    );
+  }
+
+  /**
+   * Creates a new stat for the given segment
+   *
+   * @param id The id of the segment to add a stat for
+   * @param stat The stat to add to the segment
+   * @returns An observable to the created segment stat
+   * @throws {NotFoundException} If the id does not belong
+   * to any segment
+   */
+  createStatFor(id: string, stat: SegmentStatDto): Observable<SegmentStat> {
+    return this.findById(id).pipe(
+      mergeMap((s) => this.checkOwnage(s)),
+      throwIfEmpty(() => new NotFoundException(`segment:${id} not found`)),
+      mergeMap((segment) => {
+        return from(
+          this.segmentStatModel.create({
+            ...stat,
+            segment: { _id: segment._id },
+          }),
+        );
+      }),
+    );
+  }
+
+  /**
+   * Returns all the stats of the given segment
+   *
+   * @param id The if of the segment to search the stats for
+   * @returns An observable to the list of found stats
+   * @throws {NotFoundException} If the id does not belong
+   * to any segment
+   */
+  getStatsFrom(id: string): Observable<SegmentStat[]> {
+    return this.findById(id).pipe(
+      mergeMap((s) => this.checkOwnage(s)),
+      throwIfEmpty(() => new NotFoundException(`segment:${id} not found`)),
+      mergeMap((segment) => {
+        return from(
+          this.segmentStatModel
+            .find({
+              segment: { _id: segment._id },
+            })
+            .select('-segment')
+            .exec(),
+        );
       }),
     );
   }

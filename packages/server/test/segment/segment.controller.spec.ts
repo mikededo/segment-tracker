@@ -10,6 +10,8 @@ import { SegmentService } from '@segment/segment.service';
 import { SegmentDto } from '@shared/dto/segment';
 
 import { SegmentServiceStub } from '../stub/segment.service.stub';
+import { SegmentStat } from '@database/model/segment.stat.model';
+import { SegmentStatDto } from '@shared/dto/segment.stat';
 
 describe('SegmentController', () => {
   let controller: SegmentController;
@@ -129,6 +131,62 @@ describe('SegmentController', () => {
         .subscribe({
           next: (data: any) => {
             expect(data).toBeDefined();
+          },
+          complete: done(),
+        });
+    });
+  });
+
+  describe('createStat', () => {
+    it('should add a SegmentStat to an existing segment', (done) => {
+      const stat = {
+        duration: 1506,
+        bpm: 140,
+        cadence: 65,
+        date: new Date(),
+      } as SegmentStatDto;
+
+      controller
+        .createStat(
+          '6121f0bb8ffd2b6fcd1c7376',
+          stat,
+          createMock<Response>({
+            location: jest.fn().mockReturnValue({
+              status: jest.fn().mockReturnValue({
+                send: jest.fn().mockReturnValue({
+                  status: HttpStatus.CREATED,
+                }),
+              }),
+            }),
+          }),
+        )
+        .subscribe({
+          next: (data) => {
+            expect(data).toBeDefined();
+            expect(data.status).toBe(HttpStatus.CREATED);
+          },
+          complete: done(),
+        });
+    });
+  });
+
+  describe('getSegmentStats', () => {
+    it('should return all the SegmentStats from a segment', (done) => {
+      controller
+        .getStatsFrom(
+          '6121f0bb8ffd2b6fcd1c7376',
+          createMock<Response>({
+            status: jest.fn().mockReturnValue({
+              send: jest.fn().mockReturnValue({
+                status: HttpStatus.OK,
+              }),
+            }),
+          }),
+        )
+        .subscribe({
+          next: (data) => {
+            expect(data).toBeDefined();
+            expect(data.status).toBe(HttpStatus.OK);
           },
           complete: done(),
         });

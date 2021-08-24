@@ -17,7 +17,7 @@ import { ParseObjectIdPipe } from '@shared/pipes';
 
 import { UserService } from './user.service';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private service: UserService) {}
 
