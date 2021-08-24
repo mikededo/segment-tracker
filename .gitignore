@@ -1,5 +1,4 @@
-# compiled output
-/dist
+.gitignore
 /node_modules
 
 # Env
