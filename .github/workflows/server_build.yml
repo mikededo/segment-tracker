@@ -6,6 +6,7 @@ on:
       - "main"
     paths:
       - "packages/server/**"
+  workflow_dispatch:
 
 jobs:
   test:
