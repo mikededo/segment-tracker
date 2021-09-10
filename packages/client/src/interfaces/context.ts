@@ -14,12 +14,23 @@ export interface ApiCalls {
   user: UserApiCalls;
 }
 
+export interface ApiError {
+  error: string;
+  message: string;
+  statusCode: number;
+}
+
 export interface ApiState {
   loading: boolean;
-  error?: string;
+  error?: ApiError;
+  errorDismised: boolean;
 }
+
+type ClearApiError = {
+  clearError: () => void;
+};
 
 export interface AppContext {
   auth: Readonly<AuthState>;
-  api: Readonly<ApiState & ApiCalls>;
+  api: Readonly<ApiState & ApiCalls & ClearApiError>;
 }

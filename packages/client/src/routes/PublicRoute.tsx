@@ -15,7 +15,7 @@ const PublicRoute: React.FC<AppRouteProps & RouteProps> = ({
     <Route
       {...routeProps}
       render={(props) =>
-        auth.user ? <Redirect to="/app" /> : <Component {...props} />
+        auth.user ? <Redirect to="/home" /> : <Component {...props} />
       }
     />
   );

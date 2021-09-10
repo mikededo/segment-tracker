@@ -1,15 +1,21 @@
-import axios from '@api/axios';
-import { ApiCalls, ApiState, AppContext, AuthState } from '@interfaces/context';
-import { User, UserToken } from '@interfaces/shared';
-import jwtDecode from 'jwt-decode';
 import React, {
   createContext,
   FunctionComponent,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+import jwtDecode from 'jwt-decode';
+
+import { ApiCalls, ApiState, AppContext, AuthState } from '@interfaces/context';
+import { User, UserToken } from '@interfaces/shared';
+import axios from '@services/axios';
+import ls from '@services/localStorage';
+import { LS, USER_API } from '@utils/constants';
+import { AxiosResponse } from 'axios';
+
+// Context
 const AppStateContext = createContext<AppContext>({} as any);
 AppStateContext.displayName = 'AppStateContext';
 
@@ -25,43 +31,91 @@ export const useAppContext = (): AppContext => {
 
 const loadContext = (): AppContext => {
   // Api state
-  const [apiState, setApiState] = useState<ApiState>({ loading: false });
+  const [apiState, setApiState] = useState<ApiState>({
+    loading: false,
+    errorDismised: true,
+  });
   // Auth state
   const [authState, setAuthState] = useState<AuthState>({});
+
+  // General helpers
+  const callHandler = async (promise: Promise<any>) => {
+    try {
+      return await promise;
+    } catch (err) {
+      setApiState({ error: err, errorDismised: false, loading: false });
+    }
+
+    return undefined;
+  };
+
+  /**
+   * Sets the error prop as undefined in the `ApiState`
+   */
+  const onClearError = () => {
+    setApiState((prev) => ({ ...prev, errorDismised: true }));
+  };
+
+  // User helpers
+  const getUser = async (token: UserToken) => {
+    const get: AxiosResponse = await callHandler(
+      axios.get(`${USER_API.GET}${token.ui}`),
+    );
+
+    if (get) {
+      setApiState((prev) => ({ ...prev, loading: false }));
+      setAuthState({ token, user: get.data });
+    }
+  };
 
   const api: ApiCalls = {
     user: {
       login: async (email: string, password: string) => {
         setApiState((prev) => ({ ...prev, loading: true }));
 
-        try {
-          const login = await axios.post('/auth/login', { email, password });
+        const login: AxiosResponse = await callHandler(
+          axios.post(USER_API.LOGIN, { email, password }),
+        );
+
+        if (login) {
           const token: UserToken = jwtDecode(login.data);
 
-          const get = await axios.get(`/users/${token.ui}`);
-          setApiState((prev) => ({ ...prev, loading: false }));
-          setAuthState({ token, user: get.data });
-        } catch (e) {
-          setApiState({ error: e, loading: false });
+          getUser(token);
+          ls.set(LS.JWT, login.data);
         }
       },
       register: async (data: Partial<User>) => {
         setApiState((prev) => ({ ...prev, loading: true }));
 
-        try {
-          const register = await axios.post('/auth/register', data);
+        const register: AxiosResponse = await callHandler(
+          axios.post(USER_API.REGISTER, data),
+        );
 
+        if (register) {
           setApiState((prev) => ({ ...prev, loading: false }));
           setAuthState({ user: register.data });
-        } catch (e) {
-          setApiState({ error: e, loading: false });
         }
       },
     },
   };
 
+  // Check if user has active token
+  useEffect(() => {
+    const value = ls.get(LS.JWT);
+
+    if (value) {
+      // If there's an existing token, use
+      const token: UserToken = jwtDecode(value);
+
+      if (token.exp < new Date()) {
+        // If date not expired, use the token to log the user in
+        getUser(token);
+      }
+    }
+  }, []);
+
   return {
-    api: { ...api, ...apiState },
+    api: { ...api, ...apiState, clearError: onClearError },
     auth: authState,
   };
 };

@@ -35,6 +35,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
     '@typescript-eslint/no-shadow': ['error'],
+    '@typescript-eslint/no-explicit-any': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/prop-types': 'off',
   },

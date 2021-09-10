@@ -3,14 +3,14 @@ import { createTheme } from '@material-ui/core';
 const AppTheme = createTheme({
   palette: {
     mode: 'light',
-    primary: { main: '#ff6f3c', contrastText: '#fafafa' },
+    primary: { main: '#FF6700', contrastText: '#fafafa' },
     secondary: { main: '#ffb74d' },
     warning: { main: '#ffc107' },
-    error: { main: '#e53935' },
+    error: { main: '#e32636' },
     info: { main: '#2196f3' },
     success: { main: '#4caf50' },
-    divider: 'rgba(66,66,66,0.05)',
-    text: { primary: '#3b3b3b', secondary: 'rgba(59,59,59,0.8)' },
+    divider: 'rgba(66,66,66,0.15)',
+    text: { primary: '#2f2f2f', secondary: 'rgba(59,59,59,0.8)' },
   },
   typography: {
     fontFamily: 'Rubik',
@@ -19,8 +19,8 @@ const AppTheme = createTheme({
     h3: { fontSize: 20, fontWeight: 700, lineHeight: 1 },
     h4: { fontSize: 20, fontWeight: 500, lineHeight: 1 },
     h5: { fontSize: 18, fontWeight: 700, lineHeight: 1 },
-    h6: { fontSize: 18, lineHeight: 1 },
-    subtitle1: { fontWeight: 300, lineHeight: 1 },
+    h6: { fontSize: 18, fontWeight: 400, lineHeight: 1 },
+    subtitle1: { fontWeight: 400, lineHeight: 1 },
     subtitle2: { fontWeight: 400, lineHeight: 1 },
     body1: { fontWeight: 500, lineHeight: 1 },
     body2: { fontSize: 14, lineHeight: 1 },
@@ -29,7 +29,7 @@ const AppTheme = createTheme({
     caption: { lineHeight: 1 },
     fontWeightBold: 700,
   },
-  shape: { borderRadius: 8 },
+  shape: { borderRadius: 4 },
   components: {
     MuiTooltip: { defaultProps: { arrow: true } },
     MuiInputBase: {
@@ -37,6 +37,21 @@ const AppTheme = createTheme({
         root: { borderRadius: 0 },
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        root: { textTransform: 'none' },
+        outlined: { padding: '8px 16px' },
+      },
+    },
+    MuiPaper: {
+      defaultProps: { variant: 'outlined' },
+    },
+    MuiAlert: {
+      styleOverrides: {
+        root: { display: 'flex', alignContent: 'center', alignItems: 'center' },
+      },
+    },
+    MuiSnackbar: { defaultProps: { autoHideDuration: 5000 } },
   },
 });
 

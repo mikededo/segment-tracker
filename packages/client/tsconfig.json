@@ -19,11 +19,13 @@
     "strict": true,
     "target": "es5",
     "paths": {
-      "@api/*": ["./api/*"],
+      "@components/*": ["./components/*"],
       "@config/*": ["./config/*"],
       "@context/*": ["./context/*"],
       "@interfaces/*": ["./interfaces/*"],
       "@routes/*": ["./routes/*"],
+      "@services/*": ["./services/*"],
+      "@utils/*": ["./utils/*"],
       "@views/*": ["./views/*"]
     }
   },
