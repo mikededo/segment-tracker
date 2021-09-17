@@ -1,18 +1,12 @@
 import React, { useEffect } from 'react';
 
 import { ContentLayout } from '@components/common';
+import SegmentList from '@components/Segments';
 import { useAppContext } from '@context/AppContext';
-import {
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 
 const Home: React.FC = () => {
-  const { api, segments } = useAppContext();
+  const { api } = useAppContext();
 
   useEffect(() => {
     api.segments.getAll();
@@ -20,21 +14,17 @@ const Home: React.FC = () => {
 
   return (
     <ContentLayout title="Segment Tracker">
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={2}
+      >
         <Typography variant="h3">Your segments</Typography>
         <Button>Create</Button>
       </Stack>
 
-      <List>
-        {segments.segments.map((segment) => (
-          <ListItem>
-            <ListItemText
-              primary={segment.name}
-              secondary={`${segment.distance} km`}
-            />
-          </ListItem>
-        ))}
-      </List>
+      <SegmentList />
     </ContentLayout>
   );
 };

@@ -22,7 +22,7 @@ const AppTheme = createTheme({
     h6: { fontSize: 18, fontWeight: 400, lineHeight: 1 },
     subtitle1: { fontWeight: 400, lineHeight: 1 },
     subtitle2: { fontWeight: 400, lineHeight: 1 },
-    body1: { fontWeight: 500, lineHeight: 1 },
+    body1: { fontWeight: 400, lineHeight: 1 },
     body2: { fontSize: 14, lineHeight: 1 },
     button: { fontSize: 14, lineHeight: 1, letterSpacing: 0.25 },
     overline: { lineHeight: 1 },
@@ -39,7 +39,7 @@ const AppTheme = createTheme({
     },
     MuiButton: {
       styleOverrides: {
-        root: { textTransform: 'none', padding: '8px 16px' },
+        root: { textTransform: 'none', padding: '10px 16px' },
         outlined: { borderRadius: 4 },
       },
       defaultProps: { variant: 'contained', disableElevation: true },
