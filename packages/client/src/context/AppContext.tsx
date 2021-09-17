@@ -6,14 +6,20 @@ import React, {
   useState,
 } from 'react';
 
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
 
-import { ApiCalls, ApiState, AppContext, AuthState } from '@interfaces/context';
-import { User, UserToken } from '@interfaces/shared';
+import {
+  ApiCalls,
+  ApiState,
+  AppContext,
+  AuthState,
+  SegmentState,
+} from '@interfaces/context';
+import { Segment, UserToken } from '@interfaces/shared';
 import axios from '@services/axios';
 import ls from '@services/localStorage';
-import { LS, USER_API } from '@utils/constants';
-import { AxiosResponse } from 'axios';
+import { LS, SEGMENT_API, USER_API } from '@utils/constants';
 
 // Context
 const AppStateContext = createContext<AppContext>({} as any);
@@ -35,8 +41,15 @@ const loadContext = (): AppContext => {
     loading: false,
     errorDismised: true,
   });
+
   // Auth state
   const [authState, setAuthState] = useState<AuthState>({});
+
+  // Segment state
+  const [segmentState, setSegmentState] = useState<SegmentState>({
+    segments: [],
+    active: null,
+  });
 
   // General helpers
   const callHandler = async (promise: Promise<any>) => {
@@ -49,6 +62,34 @@ const loadContext = (): AppContext => {
     return undefined;
   };
 
+  const onStartCall = () => {
+    setApiState((prev) => ({ ...prev, loading: true }));
+  };
+
+  const onFinishCall = () => {
+    setApiState((prev) => ({ ...prev, loading: false }));
+  };
+
+  const onAuthCall = (cb: (config: AxiosRequestConfig) => void): void => {
+    if (authState.token) {
+      cb({ headers: { Authorization: `Bearer ${authState.token}` } });
+    } else {
+      setApiState({
+        error: {
+          error: '',
+          message: 'An error occurred. Log in again.',
+          statusCode: 401,
+        },
+        errorDismised: false,
+        loading: false,
+      });
+      // Remove the user from the state
+      setAuthState({});
+      // Remove the token
+      ls.rm(LS.JWT);
+    }
+  };
+
   /**
    * Sets the error prop as undefined in the `ApiState`
    */
@@ -57,44 +98,105 @@ const loadContext = (): AppContext => {
   };
 
   // User helpers
-  const getUser = async (token: UserToken) => {
+  const getUser = async (token: string) => {
+    const parsedToken: UserToken = jwtDecode(token);
+
     const get: AxiosResponse = await callHandler(
-      axios.get(`${USER_API.GET}${token.ui}`),
+      axios.get(`${USER_API.GET}${parsedToken.ui}`),
     );
 
-    if (get) {
-      setApiState((prev) => ({ ...prev, loading: false }));
-      setAuthState({ token, user: get.data });
-    }
+    onFinishCall();
+    setAuthState({ token, user: get.data });
   };
 
   const api: ApiCalls = {
     user: {
-      login: async (email: string, password: string) => {
-        setApiState((prev) => ({ ...prev, loading: true }));
+      login: async (email, password) => {
+        onStartCall();
 
         const login: AxiosResponse = await callHandler(
           axios.post(USER_API.LOGIN, { email, password }),
         );
 
-        if (login) {
-          const token: UserToken = jwtDecode(login.data);
-
-          getUser(token);
-          ls.set(LS.JWT, login.data);
-        }
+        getUser(login.data);
+        ls.set(LS.JWT, login.data);
       },
-      register: async (data: Partial<User>) => {
-        setApiState((prev) => ({ ...prev, loading: true }));
+      register: async (data) => {
+        onStartCall();
 
         const register: AxiosResponse = await callHandler(
           axios.post(USER_API.REGISTER, data),
         );
 
-        if (register) {
-          setApiState((prev) => ({ ...prev, loading: false }));
-          setAuthState({ user: register.data });
-        }
+        onFinishCall();
+        setAuthState({ user: register.data });
+      },
+    },
+    segments: {
+      getAll: () => {
+        onAuthCall(async (config) => {
+          onStartCall();
+
+          const res: AxiosResponse<Segment[]> = await callHandler(
+            axios.get(SEGMENT_API.BASE, config),
+          );
+
+          setSegmentState({ segments: res.data, active: null });
+          onFinishCall();
+        });
+      },
+      getSingle: (id) => {
+        onAuthCall(async (config) => {
+          onStartCall();
+
+          const res: AxiosResponse<Segment> = await callHandler(
+            axios.get(`${SEGMENT_API.BASE}/${id}`, config),
+          );
+
+          setSegmentState((prev) => ({ ...prev, active: res.data }));
+          onFinishCall();
+        });
+      },
+      post: (segment) => {
+        onAuthCall(async (config) => {
+          onStartCall();
+
+          // `res` contains the created segment data
+          const res: AxiosResponse<Segment> = await callHandler(
+            axios.post(SEGMENT_API.BASE, segment, config),
+          );
+
+          setSegmentState((prev) => ({ ...prev, active: res.data }));
+          onFinishCall();
+        });
+      },
+      patch: (id, segment) => {
+        onAuthCall(async (config) => {
+          onStartCall();
+
+          await callHandler(
+            axios.patch(`${SEGMENT_API.BASE}/${id}`, segment, config),
+          );
+
+          setSegmentState((prev) => ({
+            ...prev,
+            active: Object.assign(prev.active, segment),
+          }));
+          onFinishCall();
+        });
+      },
+      delete: (id) => {
+        onAuthCall(async (config) => {
+          onStartCall();
+
+          await callHandler(axios.delete(`${SEGMENT_API.BASE}/${id}`, config));
+
+          setSegmentState((prev) => ({
+            segments: [...prev.segments],
+            active: null,
+          }));
+          onFinishCall();
+        });
       },
     },
   };
@@ -107,9 +209,9 @@ const loadContext = (): AppContext => {
       // If there's an existing token, use
       const token: UserToken = jwtDecode(value);
 
-      if (token.exp < new Date()) {
+      if (token.exp * 1000 > Date.now()) {
         // If date not expired, use the token to log the user in
-        getUser(token);
+        getUser(value);
       }
     }
   }, []);
@@ -117,6 +219,7 @@ const loadContext = (): AppContext => {
   return {
     api: { ...api, ...apiState, clearError: onClearError },
     auth: authState,
+    segments: segmentState,
   };
 };
 

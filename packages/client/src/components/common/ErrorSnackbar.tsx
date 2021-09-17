@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useAppContext } from '@context/AppContext';
-import { Alert, Snackbar } from '@material-ui/core';
+import { Alert, Snackbar } from '@mui/material';
 import { getErrorMessage } from '@utils/helpers';
 
 const ErrorSnackbar: React.FC = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useForm } from 'react-hook-form';
-import { Stack, TextField, Button } from '@material-ui/core';
+import { Stack, TextField, Button } from '@mui/material';
 import { LoginForm } from '@interfaces/forms';
 import { useAppContext } from '@context/AppContext';
 

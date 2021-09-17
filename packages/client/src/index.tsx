@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import AppTheme from '@config/Theme';
 import { AppContextProvider } from '@context/AppContext';
-import { ThemeProvider } from '@material-ui/core';
+import { ThemeProvider } from '@mui/material';
 import NotFoundRoute from '@routes/NotFoundRoute';
 import PrivateRoute from '@routes/PrivateRoute';
 import PublicRoute from '@routes/PublicRoute';

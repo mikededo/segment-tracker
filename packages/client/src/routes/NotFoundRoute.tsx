@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Divider, Stack, Typography } from '@material-ui/core';
+import { Divider, Stack, Typography } from '@mui/material';
 
 const NotFoundRoute: React.FC = () => (
   <Stack

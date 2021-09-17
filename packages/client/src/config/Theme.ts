@@ -1,9 +1,9 @@
-import { createTheme } from '@material-ui/core';
+import { createTheme } from '@mui/material';
 
 const AppTheme = createTheme({
   palette: {
     mode: 'light',
-    primary: { main: '#FF6700', contrastText: '#fafafa' },
+    primary: { main: '#5688C7', contrastText: '#fafafa' },
     secondary: { main: '#ffb74d' },
     warning: { main: '#ffc107' },
     error: { main: '#e32636' },
@@ -13,7 +13,7 @@ const AppTheme = createTheme({
     text: { primary: '#2f2f2f', secondary: 'rgba(59,59,59,0.8)' },
   },
   typography: {
-    fontFamily: 'Rubik',
+    fontFamily: 'Inter',
     h1: { fontSize: 24, fontWeight: 700, lineHeight: 1 },
     h2: { fontSize: 24, fontWeight: 500, lineHeight: 1 },
     h3: { fontSize: 20, fontWeight: 700, lineHeight: 1 },
@@ -24,7 +24,7 @@ const AppTheme = createTheme({
     subtitle2: { fontWeight: 400, lineHeight: 1 },
     body1: { fontWeight: 500, lineHeight: 1 },
     body2: { fontSize: 14, lineHeight: 1 },
-    button: { fontSize: '1rem', lineHeight: 1 },
+    button: { fontSize: 14, lineHeight: 1, letterSpacing: 0.25 },
     overline: { lineHeight: 1 },
     caption: { lineHeight: 1 },
     fontWeightBold: 700,
@@ -39,12 +39,18 @@ const AppTheme = createTheme({
     },
     MuiButton: {
       styleOverrides: {
-        root: { textTransform: 'none' },
-        outlined: { padding: '8px 16px' },
+        root: { textTransform: 'none', padding: '8px 16px' },
+        outlined: { borderRadius: 4 },
       },
+      defaultProps: { variant: 'contained', disableElevation: true },
     },
     MuiPaper: {
       defaultProps: { variant: 'outlined' },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: { padding: '16px 24px' },
+      },
     },
     MuiAlert: {
       styleOverrides: {

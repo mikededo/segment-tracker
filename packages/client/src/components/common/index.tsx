@@ -1,3 +1,4 @@
+import ContentLayout from './ContentLayout';
 import ErrorSnackbar from './ErrorSnackbar';
 
-export { ErrorSnackbar };
+export { ContentLayout, ErrorSnackbar };

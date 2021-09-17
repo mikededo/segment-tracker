@@ -1,6 +1,7 @@
-import { Gender, Level } from './enums';
+import { Gender, Level, SegmentType } from './enums';
 
 export interface User {
+  id?: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -13,6 +14,27 @@ export interface User {
 export interface UserToken {
   ui: string;
   ue: string;
-  iat: Date;
-  exp: Date;
+  iat: number;
+  exp: number;
+}
+
+export interface Segment {
+  _id: string;
+  name: string;
+  distance: number;
+  steep: number;
+  stravaUrl: string;
+  type: SegmentType;
+  owner: Pick<User, 'id'>;
+}
+
+export interface SegmentStat {
+  segment?: Pick<Segment, '_id'>;
+  duration: number;
+  speed?: number;
+  cadence?: number;
+  bpm?: number;
+  power?: number;
+  feel?: number;
+  date: Date;
 }

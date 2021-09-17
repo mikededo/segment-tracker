@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ErrorSnackbar } from '@components/common';
 import { LoginForm } from '@components/Login';
-import { Box, Container, Paper, Stack, Typography } from '@material-ui/core';
+import { Box, Container, Paper, Stack, Typography } from '@mui/material';
 
 const Login: React.FC = () => (
   <>
