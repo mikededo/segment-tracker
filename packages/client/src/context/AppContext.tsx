@@ -137,7 +137,7 @@ const loadContext = (): AppContext => {
       },
     },
     segments: {
-      getAll: () => {
+      getAll: (cb) => {
         onAuthCall(async (config) => {
           onStartCall();
 
@@ -146,10 +146,12 @@ const loadContext = (): AppContext => {
           );
 
           setSegmentState({ segments: res.data, active: null });
+
+          cb?.(res.data);
           onFinishCall();
         });
       },
-      getSingle: (id) => {
+      getSingle: (id, cb) => {
         onAuthCall(async (config) => {
           onStartCall();
 
@@ -158,10 +160,12 @@ const loadContext = (): AppContext => {
           );
 
           setSegmentState((prev) => ({ ...prev, active: res.data }));
+
+          cb?.(res.data);
           onFinishCall();
         });
       },
-      post: (segment) => {
+      post: (segment, cb) => {
         onAuthCall(async (config) => {
           onStartCall();
 
@@ -171,10 +175,12 @@ const loadContext = (): AppContext => {
           );
 
           setSegmentState((prev) => ({ ...prev, active: res.data }));
+
+          cb?.(res.data);
           onFinishCall();
         });
       },
-      patch: (id, segment) => {
+      patch: (id, segment, cb) => {
         onAuthCall(async (config) => {
           onStartCall();
 
@@ -186,10 +192,12 @@ const loadContext = (): AppContext => {
             ...prev,
             active: Object.assign(prev.active, segment),
           }));
+
+          cb?.();
           onFinishCall();
         });
       },
-      delete: (id) => {
+      delete: (id, cb) => {
         onAuthCall(async (config) => {
           onStartCall();
 
@@ -199,6 +207,8 @@ const loadContext = (): AppContext => {
             segments: [...prev.segments],
             active: null,
           }));
+
+          cb?.();
           onFinishCall();
         });
       },

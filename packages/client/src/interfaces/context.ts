@@ -15,37 +15,48 @@ export interface UserApiCalls {
   register: (user: Partial<User>) => void;
 }
 
+export type ApiCallback<T> = (arg: T) => void;
+
 export interface SegmentApiCalls {
   /**
    * Loads as active segment the selected
    * @param id The id of the segment to load
+   * @param cb Optional callback called with api response
    */
-  getSingle: (id: string) => void;
+  getSingle: (id: string, cb?: ApiCallback<Segment>) => void;
 
   /**
    * Loads the segment list with all the segments from the
    * user
+   * @param cb Optional callback called with api response
    */
-  getAll: () => void;
+  getAll: (cb?: ApiCallback<Segment[]>) => void;
 
   /**
    * Posts a segment to the current user
    * @param segment The segment to post
+   * @param cb Optional callback called with api response
    */
-  post: (segment: Segment) => void;
+  post: (segment: Segment, cb?: ApiCallback<Segment>) => void;
 
   /**
    * Updates the segment with the given id fields of the given segment
    * @param id The id of the segment to patch
    * @param segment The segment data to patch
+   * @param cb Optional callback called with api response
    */
-  patch: (id: string, segment: Partial<Segment>) => void;
+  patch: (
+    id: string,
+    segment: Partial<Segment>,
+    cb?: ApiCallback<void>,
+  ) => void;
 
   /**
    * Deletes the segment with the given id
    * @param id The id of the segment to delete
+   * @param cb Optional callback called with api response
    */
-  delete: (id: string) => void;
+  delete: (id: string, cb?: ApiCallback<void>) => void;
 }
 
 export interface ApiCalls {

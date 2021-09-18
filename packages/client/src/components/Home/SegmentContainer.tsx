@@ -1,13 +1,23 @@
 import React from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import { SegmentView } from '@components/Segments';
 import { useAppContext } from '@context/AppContext';
 import { Button, Stack, Typography } from '@mui/material';
 
 const SegmentContainer: React.FC = () => {
+  // Router hooks
+  const history = useHistory();
+
   const {
     segments: { active, clearActive },
   } = useAppContext();
+
+  const handleOnBack = () => {
+    history.goBack();
+    clearActive();
+  };
 
   return (
     <>
@@ -19,7 +29,7 @@ const SegmentContainer: React.FC = () => {
       >
         <Typography variant="h3">{active?.name}</Typography>
         <Stack spacing={2} direction="row">
-          <Button variant="text" color="primary" onClick={clearActive}>
+          <Button variant="text" color="primary" onClick={handleOnBack}>
             Back
           </Button>
 

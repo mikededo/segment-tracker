@@ -5,6 +5,7 @@ import { Segment } from '@interfaces/shared';
 import { TrendingDown, TrendingFlat, TrendingUp } from '@mui/icons-material';
 import { Box, Chip, ListItemButton, Stack, Typography } from '@mui/material';
 import { useAppContext } from '@context/AppContext';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 interface SegmentListItem {
   segment: Segment;
@@ -18,6 +19,8 @@ const SEGMENT_TYPE_ICONS = {
 
 const SegmentListItem: React.FC<SegmentListItem> = ({ segment }) => {
   const { api } = useAppContext();
+  const { path } = useRouteMatch();
+  const history = useHistory();
 
   const steepChipColor = (): 'success' | 'info' | 'error' => {
     if (segment.steep < 2.0) {
@@ -32,7 +35,9 @@ const SegmentListItem: React.FC<SegmentListItem> = ({ segment }) => {
   };
 
   const handleOnClick = () => {
-    api.segments.getSingle(segment._id);
+    api.segments.getSingle(segment._id, () => {
+      history.push(`${path}/${segment._id}`);
+    });
   };
 
   return (
