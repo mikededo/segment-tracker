@@ -1,16 +1,11 @@
 import React, { useEffect } from 'react';
 
-import {
-  Redirect,
-  Route,
-  Switch,
-  useLocation,
-  useRouteMatch,
-} from 'react-router-dom';
+import { Redirect, Switch, useLocation, useRouteMatch } from 'react-router-dom';
 
 import { ContentLayout } from '@components/common';
 import { SegmentContainer, SegmentsContainer } from '@components/Home';
 import { useAppContext } from '@context/AppContext';
+import PrivateRoute from '@routes/PrivateRoute';
 
 const Home: React.FC = () => {
   const { path } = useRouteMatch();
@@ -21,19 +16,23 @@ const Home: React.FC = () => {
     api.segments.getAll();
   }, []);
 
+  const HomeRedirect = () => <Redirect to={`${path}/segments`} />;
+
   return (
     <ContentLayout title="Segment Tracker">
       <Switch location={location}>
-        <Route
-          exact
+        <PrivateRoute
           path={`${path}/segments/:id`}
           component={SegmentContainer}
+          exact
         />
-        <Route exact path={`${path}/segments`} component={SegmentsContainer} />
+        <PrivateRoute
+          exact
+          path={`${path}/segments`}
+          component={SegmentsContainer}
+        />
 
-        <Route path="/">
-          <Redirect to={`${path}/segments`} />
-        </Route>
+        <PrivateRoute path="/" component={HomeRedirect} />
       </Switch>
     </ContentLayout>
   );
