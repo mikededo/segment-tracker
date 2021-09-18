@@ -4,6 +4,7 @@ import { SegmentType } from '@interfaces/enums';
 import { Segment } from '@interfaces/shared';
 import { TrendingDown, TrendingFlat, TrendingUp } from '@mui/icons-material';
 import { Box, Chip, ListItemButton, Stack, Typography } from '@mui/material';
+import { useAppContext } from '@context/AppContext';
 
 interface SegmentListItem {
   segment: Segment;
@@ -16,6 +17,8 @@ const SEGMENT_TYPE_ICONS = {
 };
 
 const SegmentListItem: React.FC<SegmentListItem> = ({ segment }) => {
+  const { api } = useAppContext();
+
   const steepChipColor = (): 'success' | 'info' | 'error' => {
     if (segment.steep < 2.0) {
       return 'success';
@@ -28,8 +31,12 @@ const SegmentListItem: React.FC<SegmentListItem> = ({ segment }) => {
     return 'error';
   };
 
+  const handleOnClick = () => {
+    api.segments.getSingle(segment._id);
+  };
+
   return (
-    <ListItemButton sx={{ paddingY: 2 }}>
+    <ListItemButton sx={{ paddingY: 2 }} onClick={handleOnClick}>
       <Stack
         direction="row"
         alignItems="center"

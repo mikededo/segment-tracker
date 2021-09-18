@@ -4,7 +4,7 @@ const AppTheme = createTheme({
   palette: {
     mode: 'light',
     primary: { main: '#5688C7', contrastText: '#fafafa' },
-    secondary: { main: '#ffb74d' },
+    secondary: { main: '#F6BD60' },
     warning: { main: '#ffc107' },
     error: { main: '#e32636' },
     info: { main: '#2196f3' },
@@ -54,7 +54,12 @@ const AppTheme = createTheme({
     },
     MuiAlert: {
       styleOverrides: {
-        root: { display: 'flex', alignContent: 'center', alignItems: 'center' },
+        root: {
+          display: 'flex',
+          alignContent: 'center',
+          alignItems: 'center',
+          width: 'fit-content',
+        },
       },
     },
     MuiSnackbar: { defaultProps: { autoHideDuration: 5000 } },

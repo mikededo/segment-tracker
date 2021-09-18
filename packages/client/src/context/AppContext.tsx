@@ -97,12 +97,16 @@ const loadContext = (): AppContext => {
     setApiState((prev) => ({ ...prev, errorDismised: true }));
   };
 
+  const onClearActiveSegment = () => {
+    setSegmentState((prev) => ({ ...prev, active: null }));
+  };
+
   // User helpers
   const getUser = async (token: string) => {
     const parsedToken: UserToken = jwtDecode(token);
 
     const get: AxiosResponse = await callHandler(
-      axios.get(`${USER_API.GET}${parsedToken.ui}`),
+      axios.get(`${USER_API.GET}/${parsedToken.ui}`),
     );
 
     onFinishCall();
@@ -219,7 +223,7 @@ const loadContext = (): AppContext => {
   return {
     api: { ...api, ...apiState, clearError: onClearError },
     auth: authState,
-    segments: segmentState,
+    segments: { ...segmentState, clearActive: onClearActiveSegment },
   };
 };
 

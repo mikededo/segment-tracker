@@ -11,10 +11,10 @@ const SegmentList: React.FC = () => {
   return (
     <List>
       {segments.segments.map((segment, i) => (
-        <>
-          <SegmentListItem segment={segment} key={segment._id} />
+        <React.Fragment key={segment._id}>
+          <SegmentListItem segment={segment} />
           {i < segments.segments.length - 1 ? <Divider /> : null}
-        </>
+        </React.Fragment>
       ))}
     </List>
   );

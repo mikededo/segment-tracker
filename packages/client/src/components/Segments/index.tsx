@@ -1,3 +1,4 @@
 import SegmentList from './SegmentList';
+import SegmentView from './SegmentView';
 
-export default SegmentList;
+export { SegmentList, SegmentView };

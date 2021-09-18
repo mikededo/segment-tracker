@@ -25,13 +25,14 @@ const ContentLayout: React.FC<ContentLayoutProps> = ({ title, children }) => {
         </Toolbar>
       </AppBar>
 
-      {api.loading ? (
-        <LinearProgress />
-      ) : (
-        <Box m={4}>
-          <Card>{children}</Card>
-        </Box>
-      )}
+      <LinearProgress
+        color="secondary"
+        sx={{ visibility: api.loading ? 'visible' : 'hidden' }}
+      />
+
+      <Box m={4}>
+        <Card>{children}</Card>
+      </Box>
     </>
   );
 };

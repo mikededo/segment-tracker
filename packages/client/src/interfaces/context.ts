@@ -20,7 +20,7 @@ export interface SegmentApiCalls {
    * Loads as active segment the selected
    * @param id The id of the segment to load
    */
-  getSingle: (id: Pick<Segment, '_id'>) => void;
+  getSingle: (id: string) => void;
 
   /**
    * Loads the segment list with all the segments from the
@@ -39,13 +39,13 @@ export interface SegmentApiCalls {
    * @param id The id of the segment to patch
    * @param segment The segment data to patch
    */
-  patch: (id: Pick<Segment, '_id'>, segment: Partial<Segment>) => void;
+  patch: (id: string, segment: Partial<Segment>) => void;
 
   /**
    * Deletes the segment with the given id
    * @param id The id of the segment to delete
    */
-  delete: (id: Pick<Segment, '_id'>) => void;
+  delete: (id: string) => void;
 }
 
 export interface ApiCalls {
@@ -69,8 +69,12 @@ type ClearApiError = {
   clearError: () => void;
 };
 
+type ClearActiveSegment = {
+  clearActive: () => void;
+};
+
 export interface AppContext {
   auth: Readonly<AuthState>;
   api: Readonly<ApiState & ApiCalls & ClearApiError>;
-  segments: Readonly<SegmentState>;
+  segments: Readonly<SegmentState & ClearActiveSegment>;
 }
