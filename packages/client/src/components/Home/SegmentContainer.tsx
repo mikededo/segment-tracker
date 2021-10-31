@@ -11,7 +11,7 @@ const SegmentContainer: React.FC = () => {
   const history = useHistory();
 
   const {
-    segments: { active, clearActive },
+    segments: { active, clearActive }
   } = useAppContext();
 
   const handleOnBack = () => {

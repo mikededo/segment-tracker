@@ -9,7 +9,7 @@ import {
   TrendingDown,
   TrendingFlat,
   TrendingUp,
-  Verified,
+  Verified
 } from '@mui/icons-material';
 import { Box, Chip, ListItemButton, Stack, Typography } from '@mui/material';
 
@@ -20,7 +20,7 @@ interface SegmentListItem {
 const SEGMENT_TYPE_ICONS = {
   [SegmentType.DOWNHILL]: <TrendingDown />,
   [SegmentType.FLAT]: <TrendingFlat />,
-  [SegmentType.HILLY]: <TrendingUp />,
+  [SegmentType.HILLY]: <TrendingUp />
 };
 
 const SegmentListItem: React.FC<SegmentListItem> = ({ segment }) => {

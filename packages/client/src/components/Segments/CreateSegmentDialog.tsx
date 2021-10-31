@@ -10,7 +10,7 @@ import {
   Timeline,
   TrendingDown,
   TrendingFlat,
-  TrendingUp,
+  TrendingUp
 } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -28,7 +28,7 @@ import {
   Select,
   Stack,
   TextField,
-  Typography,
+  Typography
 } from '@mui/material';
 
 interface CreateSegmentDialogProps {
@@ -40,7 +40,7 @@ const CreateSegmentDialog: React.FC<DialogProps & CreateSegmentDialogProps> = ({
   ...props
 }) => {
   const { handleSubmit, register, formState } = useForm<SegmentForm>({
-    defaultValues: { type: SegmentType.FLAT },
+    defaultValues: { type: SegmentType.FLAT }
   });
 
   const { api } = useAppContext();
@@ -74,7 +74,7 @@ const CreateSegmentDialog: React.FC<DialogProps & CreateSegmentDialogProps> = ({
               helperText={formState.errors.name?.message}
               fullWidth
               {...register('name', {
-                required: { value: true, message: 'This field is required' },
+                required: { value: true, message: 'This field is required' }
               })}
             />
 
@@ -89,8 +89,8 @@ const CreateSegmentDialog: React.FC<DialogProps & CreateSegmentDialogProps> = ({
                   min: { value: 0.0, message: 'Minimum value is 0.0' },
                   pattern: {
                     value: /^[0-9]+([,.][0-9]+)?$/g,
-                    message: 'Enter a valid distance',
-                  },
+                    message: 'Enter a valid distance'
+                  }
                 })}
               />
               <TextField
@@ -103,8 +103,8 @@ const CreateSegmentDialog: React.FC<DialogProps & CreateSegmentDialogProps> = ({
                   min: { value: 0, message: 'Minimum value is 0' },
                   pattern: {
                     value: /^[0-9]+$/g,
-                    message: 'Enter a valid elevation',
-                  },
+                    message: 'Enter a valid elevation'
+                  }
                 })}
               />
 

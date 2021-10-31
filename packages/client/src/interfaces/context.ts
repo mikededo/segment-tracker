@@ -48,7 +48,7 @@ export interface SegmentApiCalls {
   patch: (
     id: string,
     segment: Partial<Segment>,
-    cb?: ApiCallback<void>,
+    cb?: ApiCallback<void>
   ) => void;
 
   /**

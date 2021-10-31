@@ -13,7 +13,7 @@ const LoginForm: React.FC = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors }
   } = useForm<LoginForm>();
 
   const handleOnLogin = (data: LoginForm) => {
@@ -32,8 +32,8 @@ const LoginForm: React.FC = () => {
             {...register('email', {
               required: {
                 value: true,
-                message: 'This field is required',
-              },
+                message: 'This field is required'
+              }
             })}
           />
           <TextField
@@ -45,8 +45,8 @@ const LoginForm: React.FC = () => {
             {...register('password', {
               required: {
                 value: true,
-                message: 'This field is required',
-              },
+                message: 'This field is required'
+              }
             })}
           />
         </Stack>

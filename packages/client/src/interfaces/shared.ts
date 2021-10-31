@@ -46,7 +46,7 @@ export class Parsers {
     return {
       ...data,
       distance: parseFloat(data.distance),
-      elevation: parseInt(data.elevation, 10),
+      elevation: parseInt(data.elevation, 10)
     } as any;
   }
 }

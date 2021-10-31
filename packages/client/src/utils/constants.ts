@@ -1,13 +1,13 @@
 export const USER_API = {
   REGISTER: '/auth/register',
   LOGIN: '/auth/login',
-  GET: '/users',
+  GET: '/users'
 };
 
 export const SEGMENT_API = {
-  BASE: '/segments',
+  BASE: '/segments'
 };
 
 export const LS = {
-  JWT: 'JWT_TOKEN',
+  JWT: 'JWT_TOKEN'
 };

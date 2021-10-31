@@ -7,7 +7,7 @@ import {
   Card,
   LinearProgress,
   Toolbar,
-  Typography,
+  Typography
 } from '@mui/material';
 
 interface ContentLayoutProps {

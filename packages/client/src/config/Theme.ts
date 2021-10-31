@@ -10,7 +10,7 @@ const AppTheme = createTheme({
     info: { main: '#2196f3' },
     success: { main: '#4caf50' },
     divider: 'rgba(66,66,66,0.15)',
-    text: { primary: '#2f2f2f', secondary: 'rgba(59,59,59,0.8)' },
+    text: { primary: '#2f2f2f', secondary: 'rgba(59,59,59,0.8)' }
   },
   typography: {
     fontFamily: 'Inter',
@@ -27,33 +27,33 @@ const AppTheme = createTheme({
     button: { fontSize: 14, lineHeight: 1, letterSpacing: 0.25 },
     overline: { lineHeight: 1 },
     caption: { lineHeight: 1 },
-    fontWeightBold: 700,
+    fontWeightBold: 700
   },
   shape: { borderRadius: 4 },
   components: {
     MuiTooltip: { defaultProps: { arrow: true } },
     MuiInputBase: {
       styleOverrides: {
-        root: { borderRadius: 0 },
-      },
+        root: { borderRadius: 0 }
+      }
     },
     MuiButton: {
       styleOverrides: {
         root: { textTransform: 'none', padding: '10px 16px' },
-        outlined: { borderRadius: 4 },
+        outlined: { borderRadius: 4 }
       },
-      defaultProps: { variant: 'contained', disableElevation: true },
+      defaultProps: { variant: 'contained', disableElevation: true }
     },
     MuiPaper: {
-      defaultProps: { variant: 'outlined' },
+      defaultProps: { variant: 'outlined' }
     },
     MuiCard: {
       styleOverrides: {
-        root: { padding: '16px 24px' },
-      },
+        root: { padding: '16px 24px' }
+      }
     },
     MuiDialogActions: {
-      styleOverrides: { root: { padding: '0px 24px 16px' } },
+      styleOverrides: { root: { padding: '0px 24px 16px' } }
     },
     MuiAlert: {
       styleOverrides: {
@@ -61,12 +61,12 @@ const AppTheme = createTheme({
           display: 'flex',
           alignContent: 'center',
           alignItems: 'center',
-          width: 'fit-content',
-        },
-      },
+          width: 'fit-content'
+        }
+      }
     },
-    MuiSnackbar: { defaultProps: { autoHideDuration: 5000 } },
-  },
+    MuiSnackbar: { defaultProps: { autoHideDuration: 5000 } }
+  }
 });
 
 export default AppTheme;
