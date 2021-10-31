@@ -1,8 +1,10 @@
 const path = require('path');
 const HtmlWebPlugin = require('html-webpack-plugin');
 
+const basePath = path.join(__dirname, 'packages', 'client', 'src');
+
 module.exports = {
-  entry: path.join(__dirname, 'packages', 'client', 'src', 'index.tsx'),
+  entry: path.join(basePath, 'index.tsx'),
   output: {
     path: path.join(__dirname, 'dist', 'client'),
     publicPath: '/',
@@ -12,11 +14,22 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     modules: [path.resolve(__dirname, 'node_modules')],
+    alias: {
+      '@components': path.resolve(basePath, 'components'),
+      '@config': path.resolve(basePath, 'config'),
+      '@context': path.resolve(basePath, 'context'),
+      '@interfaces': path.resolve(basePath, 'interfaces'),
+      '@routes': path.resolve(basePath, 'routes'),
+      '@services': path.resolve(basePath, 'services'),
+      '@utils': path.resolve(basePath, 'utils'),
+      '@views': path.resolve(basePath, 'views'),
+    },
   },
-  target: 'node',
+  target: 'web',
   devServer: {
     contentBase: path.join(__dirname, 'src'),
     historyApiFallback: true,
+    watchContentBase: true,
   },
   module: {
     rules: [
@@ -28,13 +41,13 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader'],
+        use: ['ts-loader'],
       },
     ],
   },
   plugins: [
     new HtmlWebPlugin({
-      template: path.join(__dirname, 'packages', 'client', 'src', 'index.html'),
+      template: path.join(basePath, 'index.html'),
     }),
   ],
 };

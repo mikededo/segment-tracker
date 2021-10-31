@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": true,
+    "baseUrl": "./src",
     "declaration": false,
     "esModuleInterop": true,
     "emitDecoratorMetadata": false,
@@ -16,7 +17,17 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es5"
+    "target": "es5",
+    "paths": {
+      "@components/*": ["./components/*"],
+      "@config/*": ["./config/*"],
+      "@context/*": ["./context/*"],
+      "@interfaces/*": ["./interfaces/*"],
+      "@routes/*": ["./routes/*"],
+      "@services/*": ["./services/*"],
+      "@utils/*": ["./utils/*"],
+      "@views/*": ["./views/*"]
+    }
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules", "dist", "test", "**/*spec.ts", "packages/server"],
