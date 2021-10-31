@@ -1,5 +1,5 @@
 import { Gender, Level, SegmentType } from './enums';
-import { SegmentForm } from './forms';
+import { SegmentForm, SegmentStatForm } from './forms';
 
 export interface User {
   id?: string;
@@ -48,5 +48,28 @@ export class Parsers {
       distance: parseFloat(data.distance),
       elevation: parseInt(data.elevation, 10)
     } as any;
+  }
+
+  static segmentStatFormToSegmentStat(data: SegmentStatForm): SegmentStat {
+    const duration = data.duration.split(' ').reduce((prev, curr) => {
+      let prod = 1;
+
+      if (/h$/g.test(curr)) {
+        prod = 3600;
+      } else if (/m$/g.test(curr)) {
+        prod = 60;
+      }
+
+      return prev + +curr.substr(0, curr.length - 1) * prod;
+    }, 0);
+
+    return {
+      ...data,
+      duration,
+      speed: parseFloat(data.speed),
+      cadence: parseInt(data.cadence, 10),
+      bpm: parseInt(data.bpm, 10),
+      power: parseFloat(data.power)
+    } as SegmentStat;
   }
 }

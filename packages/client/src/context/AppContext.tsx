@@ -16,7 +16,7 @@ import {
   AuthState,
   SegmentState
 } from '@interfaces/context';
-import { Segment, UserToken } from '@interfaces/shared';
+import { Segment, SegmentStat, UserToken } from '@interfaces/shared';
 import axios from '@services/axios';
 import ls from '@services/localStorage';
 import { LS, SEGMENT_API, USER_API } from '@utils/constants';
@@ -48,7 +48,7 @@ const loadContext = (): AppContext => {
   // Segment state
   const [segmentState, setSegmentState] = useState<SegmentState>({
     segments: [],
-    active: null
+    active: { segment: null, stats: [] }
   });
 
   // General helpers
@@ -98,7 +98,10 @@ const loadContext = (): AppContext => {
   };
 
   const onClearActiveSegment = () => {
-    setSegmentState((prev) => ({ ...prev, active: null }));
+    setSegmentState((prev) => ({
+      ...prev,
+      active: { segment: null, stats: [] }
+    }));
   };
 
   // User helpers
@@ -111,6 +114,22 @@ const loadContext = (): AppContext => {
 
     onFinishCall();
     setAuthState({ token, user: get.data });
+  };
+
+  /**
+   *
+   * @param id The id of the segment
+   * @param config The axios configuration of the call
+   */
+  const getSegmentStatsHelper = async (
+    id: string,
+    config: AxiosRequestConfig
+  ): Promise<SegmentStat[]> => {
+    const res: AxiosResponse<SegmentStat[]> = await callHandler(
+      axios.get(`${SEGMENT_API.BASE}/${id}/stats`, config)
+    );
+
+    return res.data;
   };
 
   const api: ApiCalls = {
@@ -145,7 +164,10 @@ const loadContext = (): AppContext => {
             axios.get(SEGMENT_API.BASE, config)
           );
 
-          setSegmentState({ segments: res.data, active: null });
+          setSegmentState({
+            segments: res.data,
+            active: { segment: null, stats: [] }
+          });
 
           cb?.(res.data);
           onFinishCall();
@@ -155,13 +177,20 @@ const loadContext = (): AppContext => {
         onAuthCall(async (config) => {
           onStartCall();
 
-          const res: AxiosResponse<Segment> = await callHandler(
+          const segment: AxiosResponse<Segment> = await callHandler(
             axios.get(`${SEGMENT_API.BASE}/${id}`, config)
           );
+          const segmentStats: SegmentStat[] = await getSegmentStatsHelper(
+            id,
+            config
+          );
 
-          setSegmentState((prev) => ({ ...prev, active: res.data }));
+          setSegmentState((prev) => ({
+            ...prev,
+            active: { segment: segment.data, stats: segmentStats }
+          }));
 
-          cb?.(res.data);
+          cb?.(segment.data);
           onFinishCall();
         });
       },
@@ -176,7 +205,7 @@ const loadContext = (): AppContext => {
 
           setSegmentState((prev) => ({
             segments: [...prev.segments, res.data],
-            active: res.data
+            active: { segment: res.data, stats: [] }
           }));
 
           cb?.(res.data);
@@ -208,10 +237,37 @@ const loadContext = (): AppContext => {
 
           setSegmentState((prev) => ({
             segments: [...prev.segments],
-            active: null
+            active: { segment: null, stats: [] }
           }));
 
           cb?.();
+          onFinishCall();
+        });
+      },
+      getSegmentStats: (id, cb) => {
+        onAuthCall(async (config) => {
+          onStartCall();
+
+          const res: SegmentStat[] = await getSegmentStatsHelper(id, config);
+
+          cb?.(res);
+          onFinishCall();
+        });
+      },
+      postStat: (id, stat, cb) => {
+        onAuthCall(async (config) => {
+          onStartCall();
+
+          const res: AxiosResponse<SegmentStat> = await callHandler(
+            axios.post(`${SEGMENT_API.BASE}/${id}/stats`, stat, config)
+          );
+
+          setSegmentState((prev) => ({
+            ...prev,
+            active: { ...prev.active, stats: [...prev.active.stats, res.data] }
+          }));
+
+          cb?.(res.data);
           onFinishCall();
         });
       }

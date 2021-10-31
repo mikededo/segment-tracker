@@ -1,4 +1,4 @@
-import { Segment, User } from './shared';
+import { Segment, SegmentStat, User } from './shared';
 
 export interface AuthState {
   token?: string;
@@ -7,7 +7,7 @@ export interface AuthState {
 
 export interface SegmentState {
   segments: Segment[];
-  active: Segment | null;
+  active: { segment: Segment | null; stats: SegmentStat[] };
 }
 
 export interface UserApiCalls {
@@ -19,7 +19,8 @@ export type ApiCallback<T> = (arg: T) => void;
 
 export interface SegmentApiCalls {
   /**
-   * Loads as active segment the selected
+   * Loads as active segment the selected and fetches the stats
+   * of it
    * @param id The id of the segment to load
    * @param cb Optional callback called with api response
    */
@@ -57,6 +58,25 @@ export interface SegmentApiCalls {
    * @param cb Optional callback called with api response
    */
   delete: (id: string, cb?: ApiCallback<void>) => void;
+
+  /**
+   * Gets the stats from the given segment id
+   * @param id The id of the segment to get the stats from
+   * @param cb Optional callback called with the api response
+   */
+  getSegmentStats: (id: string, cb?: ApiCallback<SegmentStat[]>) => void;
+
+  /**
+   * Posts a segment stat for the given segment
+   * @param id The id of the segment to add the stat to
+   * @param stat Stat to create
+   * @param cb Optional callbackcalled with the api response
+   */
+  postStat: (
+    id: string,
+    stat: SegmentStat,
+    cb?: ApiCallback<SegmentStat>
+  ) => void;
 }
 
 export interface ApiCalls {
