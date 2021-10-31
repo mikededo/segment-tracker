@@ -31,7 +31,7 @@ export const SegmentSchema = new Schema<Segment>(
     stravaUrl: SchemaTypes.String,
     type: {
       type: SchemaTypes.String,
-      enum: ['HILLY', 'FLAT', 'DOWNHILL'],
+      enum: ['HILLY', 'FLAT', 'DOWNHILL', 'AUTO'],
       default: 'FLAT',
     },
     owner: { type: SchemaTypes.ObjectId, ref: 'User', required: true },
@@ -43,12 +43,18 @@ export const SegmentSchema = new Schema<Segment>(
 );
 
 export async function beforeSave(next: () => any) {
-  if (this.steep) {
-    return next();
+  // Calculate steep
+  const steep: number = (this.elevation / this.distance) * 0.1;
+  this.set('steep', steep);
+
+  // Check if difficulty is auto
+  if (this.type === 'AUTO') {
+    this.set(
+      'type',
+      this.steep < 0 ? 'DOWNHILL' : this.steep > 5 ? 'HILLY' : 'FLAT',
+    );
   }
 
-  // Auto-calculate the steep
-  this.set('steep', (this.elevation / this.distance) * 0.1);
   next();
 }
 
