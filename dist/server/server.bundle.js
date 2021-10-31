@@ -586,7 +586,7 @@ exports.SegmentSchema = new mongoose_1.Schema({
     stravaUrl: mongoose_1.SchemaTypes.String,
     type: {
         type: mongoose_1.SchemaTypes.String,
-        enum: ['HILLY', 'FLAT', 'DOWNHILL'],
+        enum: ['HILLY', 'FLAT', 'DOWNHILL', 'AUTO'],
         default: 'FLAT',
     },
     owner: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'User', required: true },
@@ -595,10 +595,11 @@ exports.SegmentSchema = new mongoose_1.Schema({
     versionKey: false,
 });
 async function beforeSave(next) {
-    if (this.steep) {
-        return next();
+    const steep = (this.elevation / this.distance) * 0.1;
+    this.set('steep', steep);
+    if (this.type === 'AUTO') {
+        this.set('type', this.steep < 0 ? 'DOWNHILL' : this.steep > 5 ? 'HILLY' : 'FLAT');
     }
-    this.set('steep', (this.elevation / this.distance) * 0.1);
     next();
 }
 exports.beforeSave = beforeSave;
@@ -1280,6 +1281,7 @@ var SegmentType;
     SegmentType["HILLY"] = "HILLY";
     SegmentType["FLAT"] = "FLAT";
     SegmentType["DOWNHILL"] = "DOWNHILL";
+    SegmentType["AUTO"] = "AUTO";
 })(SegmentType = exports.SegmentType || (exports.SegmentType = {}));
 
 
