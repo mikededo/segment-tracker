@@ -1,4 +1,5 @@
 import { Gender, Level, SegmentType } from './enums';
+import { SegmentForm } from './forms';
 
 export interface User {
   id?: string;
@@ -22,9 +23,10 @@ export interface Segment {
   _id: string;
   name: string;
   distance: number;
+  elevation: number;
   steep: number;
   stravaUrl: string;
-  type: SegmentType;
+  type: SegmentType.DOWNHILL | SegmentType.FLAT | SegmentType.HILLY;
   owner: Pick<User, 'id'>;
 }
 
@@ -37,4 +39,14 @@ export interface SegmentStat {
   power?: number;
   feel?: number;
   date: Date;
+}
+
+export class Parsers {
+  static segmentFormToSegment(data: SegmentForm): Segment {
+    return {
+      ...data,
+      distance: parseFloat(data.distance),
+      elevation: parseInt(data.elevation, 10),
+    } as any;
+  }
 }

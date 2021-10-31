@@ -174,7 +174,10 @@ const loadContext = (): AppContext => {
             axios.post(SEGMENT_API.BASE, segment, config),
           );
 
-          setSegmentState((prev) => ({ ...prev, active: res.data }));
+          setSegmentState((prev) => ({
+            segments: [...prev.segments, res.data],
+            active: res.data,
+          }));
 
           cb?.(res.data);
           onFinishCall();

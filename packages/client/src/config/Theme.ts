@@ -52,6 +52,9 @@ const AppTheme = createTheme({
         root: { padding: '16px 24px' },
       },
     },
+    MuiDialogActions: {
+      styleOverrides: { root: { padding: '0px 24px 16px' } },
+    },
     MuiAlert: {
       styleOverrides: {
         root: {

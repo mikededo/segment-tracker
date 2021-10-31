@@ -15,4 +15,5 @@ export enum SegmentType {
   HILLY = 'HILLY',
   FLAT = 'FLAT',
   DOWNHILL = 'DOWNHILL',
+  AUTO = 'AUTO',
 }

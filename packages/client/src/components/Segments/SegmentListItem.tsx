@@ -1,11 +1,17 @@
 import React from 'react';
 
+import { useHistory, useRouteMatch } from 'react-router-dom';
+
+import { useAppContext } from '@context/AppContext';
 import { SegmentType } from '@interfaces/enums';
 import { Segment } from '@interfaces/shared';
-import { TrendingDown, TrendingFlat, TrendingUp } from '@mui/icons-material';
+import {
+  TrendingDown,
+  TrendingFlat,
+  TrendingUp,
+  Verified,
+} from '@mui/icons-material';
 import { Box, Chip, ListItemButton, Stack, Typography } from '@mui/material';
-import { useAppContext } from '@context/AppContext';
-import { useHistory, useRouteMatch } from 'react-router-dom';
 
 interface SegmentListItem {
   segment: Segment;
@@ -49,8 +55,17 @@ const SegmentListItem: React.FC<SegmentListItem> = ({ segment }) => {
         width="100%"
       >
         <Stack spacing={1} flex={3}>
-          <Typography variant="h6">{segment.name}</Typography>
-          <Typography variant="body2">{`${segment.distance} km`}</Typography>
+          <Stack spacing={1} direction="row" alignItems="center">
+            <Typography variant="h6">{segment.name}</Typography>
+
+            {segment.stravaUrl && (
+              <Verified titleAccess="Strava url available" fontSize="small" />
+            )}
+          </Stack>
+
+          <Typography variant="body2">{`${segment.distance.toFixed(2)}km - ${
+            segment.elevation
+          }m`}</Typography>
         </Stack>
 
         <Box flex={1}>

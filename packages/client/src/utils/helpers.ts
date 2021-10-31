@@ -1,8 +1,8 @@
 /**
- * Returns a message ensuring the first letter as a capital letter
+ * Returns a string ensuring the first letter as a capital letter
  *
- * @param msg The error message to parse
- * @returns The parsed error message
+ * @param msg The string to capitalize
+ * @returns The capitalized string
  */
-export const getErrorMessage = (msg: string): string =>
+export const capitalize = (msg: string): string =>
   `${msg[0].toUpperCase()}${msg.substring(1)}`;

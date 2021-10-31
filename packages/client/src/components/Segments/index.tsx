@@ -1,4 +1,5 @@
+import CreateSegmentDialog from './CreateSegmentDialog';
 import SegmentList from './SegmentList';
 import SegmentView from './SegmentView';
 
-export { SegmentList, SegmentView };
+export { CreateSegmentDialog, SegmentList, SegmentView };
