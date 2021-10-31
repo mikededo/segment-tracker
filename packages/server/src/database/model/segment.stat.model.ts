@@ -35,11 +35,11 @@ export const SegmentStatSchema = new Schema<SegmentStat>(
     power: { type: SchemaTypes.Number, required: false },
     feel: { type: SchemaTypes.Number, required: false },
     notes: { type: SchemaTypes.String, required: false },
-    date: { type: SchemaTypes.Date, required: true, default: new Date() },
+    date: { type: SchemaTypes.Date, required: true, default: new Date() }
   },
-  { versionKey: false },
+  { versionKey: false }
 );
 
 export const createSegmentStatModel: (cnt: Connection) => SegmentStatModel = (
-  cnt: Connection,
+  cnt: Connection
 ) => cnt.model<SegmentStat>('SegmentStat', SegmentStatSchema, 'segmentStats');

@@ -15,14 +15,14 @@ export class LoginController {
   @Post()
   login(
     @Req() req: AuthenticatedRequest,
-    @Res() res: Response,
+    @Res() res: Response
   ): Observable<Response> {
     return this.authService
       .login(req.user)
       .pipe(
         map(({ token }) =>
-          res.header('Authorization', `Bearer ${token}`).json(token).send(),
-        ),
+          res.header('Authorization', `Bearer ${token}`).json(token).send()
+        )
       );
   }
 }

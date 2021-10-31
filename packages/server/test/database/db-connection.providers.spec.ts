@@ -10,7 +10,7 @@ jest.mock('mongoose', () => ({
   createConnection: jest
     .fn()
     .mockImplementation((uri: any, options: any) => ({} as any)),
-  Connection: jest.fn(),
+  Connection: jest.fn()
 }));
 
 describe('dbConnectionProviders', () => {
@@ -19,7 +19,7 @@ describe('dbConnectionProviders', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forFeature(mongoConfig)],
-      providers: [...dbConnectionProviders],
+      providers: [...dbConnectionProviders]
     }).compile();
 
     connection = module.get<Connection>(PROVIDERS.DB);
@@ -33,7 +33,7 @@ describe('dbConnectionProviders', () => {
     expect(createConnection).toHaveBeenCalledWith('mongodb://localhost', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useFindAndModify: false,
+      useFindAndModify: false
     });
   });
 });

@@ -59,7 +59,7 @@ export class UserService {
     return this.findById(id).pipe(
       mergeMap((u) => (u ? of(u) : EMPTY)),
       throwIfEmpty(() => new NotFoundException(`user:${id} not found`)),
-      mergeMap((u) => Object.assign(u, data).save()),
+      mergeMap((u) => Object.assign(u, data).save())
     );
   }
 }

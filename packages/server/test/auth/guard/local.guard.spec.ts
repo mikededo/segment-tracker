@@ -15,7 +15,7 @@ describe('LocalGuard', () => {
 
   it('should return true for `canActivate`', async () => {
     AuthGuard('local').prototype.canActivate = jest.fn(() =>
-      Promise.resolve(true),
+      Promise.resolve(true)
     );
     AuthGuard('local').prototype.logIn = jest.fn(() => Promise.resolve());
 

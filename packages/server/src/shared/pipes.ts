@@ -5,11 +5,11 @@ import {
   HttpStatus,
   Injectable,
   Optional,
-  PipeTransform,
+  PipeTransform
 } from '@nestjs/common';
 import {
   ErrorHttpStatusCode,
-  HttpErrorByCode,
+  HttpErrorByCode
 } from '@nestjs/common/utils/http-error-by-code.util';
 
 // By addind options (as in ParseInPipe), we can change

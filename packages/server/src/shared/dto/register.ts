@@ -4,7 +4,7 @@ import {
   IsNotEmpty,
   IsOptional,
   MaxLength,
-  MinLength,
+  MinLength
 } from 'class-validator';
 
 import { Gender, Level } from '../enums';

@@ -17,10 +17,10 @@ describe('JwtStrategy', () => {
           provide: jwtConfig.KEY,
           useValue: {
             secretKey: 'test_key',
-            expireTime: '1s',
-          },
-        },
-      ],
+            expireTime: '1s'
+          }
+        }
+      ]
     }).compile();
 
     strategy = module.get<JwtStrategy>(JwtStrategy);
@@ -33,7 +33,7 @@ describe('JwtStrategy', () => {
 
     const user = strategy.validate({
       ui: 'testid',
-      ue: 'mock@data.com',
+      ue: 'mock@data.com'
     });
 
     expect(user.id).toEqual('testid');

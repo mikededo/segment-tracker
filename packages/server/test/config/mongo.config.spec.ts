@@ -7,7 +7,7 @@ describe('mongodbConfig', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(mongodbConfig)],
+      imports: [ConfigModule.forFeature(mongodbConfig)]
     }).compile();
 
     config = module.get<ConfigType<typeof mongodbConfig>>(mongodbConfig.KEY);

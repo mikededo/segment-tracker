@@ -22,9 +22,9 @@ describe('SegmentController', () => {
       providers: [
         {
           provide: SegmentService,
-          useClass: SegmentServiceStub,
-        },
-      ],
+          useClass: SegmentServiceStub
+        }
+      ]
     }).compile();
 
     controller = await module.resolve<SegmentController>(SegmentController);
@@ -45,7 +45,7 @@ describe('SegmentController', () => {
   describe('getSingle', () => {
     it('should return the segment with the given id', async () => {
       const result = await lastValueFrom(
-        controller.getSingle('6121f0bb8ffd2b6fcd1c7379'),
+        controller.getSingle('6121f0bb8ffd2b6fcd1c7379')
       );
 
       expect(result).toStrictEqual({
@@ -53,7 +53,7 @@ describe('SegmentController', () => {
         name: 'Stub Segment IV',
         distance: 5.0,
         elevation: 500,
-        steep: 10.0,
+        steep: 10.0
       } as Segment);
     });
   });
@@ -63,7 +63,7 @@ describe('SegmentController', () => {
       const segment = {
         name: 'New segment',
         distance: 5.0,
-        elevation: 100,
+        elevation: 100
       } as SegmentDto;
 
       const result = await lastValueFrom(
@@ -74,12 +74,12 @@ describe('SegmentController', () => {
               status: jest.fn().mockReturnValue({
                 send: jest.fn().mockReturnValue({
                   headers: { location: '/posts/id' },
-                  status: HttpStatus.CREATED,
-                }),
-              }),
-            }),
-          }),
-        ),
+                  status: HttpStatus.CREATED
+                })
+              })
+            })
+          })
+        )
       );
 
       expect(result.status).toBe(HttpStatus.CREATED);
@@ -91,7 +91,7 @@ describe('SegmentController', () => {
       const segment = {
         name: 'Updated segment',
         elevation: 550,
-        distance: 12.5,
+        distance: 12.5
       } as SegmentDto;
 
       controller
@@ -101,16 +101,16 @@ describe('SegmentController', () => {
           createMock<Response>({
             status: jest.fn().mockReturnValue({
               send: jest.fn().mockReturnValue({
-                status: HttpStatus.NO_CONTENT,
-              }),
-            }),
-          }),
+                status: HttpStatus.NO_CONTENT
+              })
+            })
+          })
         )
         .subscribe({
           next: (data) => {
             expect(data.status).toBe(HttpStatus.NO_CONTENT);
           },
-          complete: done(),
+          complete: done()
         });
     });
   });
@@ -123,16 +123,16 @@ describe('SegmentController', () => {
           createMock<Response>({
             status: jest.fn().mockReturnValue({
               send: jest.fn().mockReturnValue({
-                status: HttpStatus.NO_CONTENT,
-              }),
-            }),
-          }),
+                status: HttpStatus.NO_CONTENT
+              })
+            })
+          })
         )
         .subscribe({
           next: (data: any) => {
             expect(data).toBeDefined();
           },
-          complete: done(),
+          complete: done()
         });
     });
   });
@@ -143,7 +143,7 @@ describe('SegmentController', () => {
         duration: 1506,
         bpm: 140,
         cadence: 65,
-        date: new Date(),
+        date: new Date()
       } as SegmentStatDto;
 
       controller
@@ -154,18 +154,18 @@ describe('SegmentController', () => {
             location: jest.fn().mockReturnValue({
               status: jest.fn().mockReturnValue({
                 send: jest.fn().mockReturnValue({
-                  status: HttpStatus.CREATED,
-                }),
-              }),
-            }),
-          }),
+                  status: HttpStatus.CREATED
+                })
+              })
+            })
+          })
         )
         .subscribe({
           next: (data) => {
             expect(data).toBeDefined();
             expect(data.status).toBe(HttpStatus.CREATED);
           },
-          complete: done(),
+          complete: done()
         });
     });
   });
@@ -178,17 +178,17 @@ describe('SegmentController', () => {
           createMock<Response>({
             status: jest.fn().mockReturnValue({
               send: jest.fn().mockReturnValue({
-                status: HttpStatus.OK,
-              }),
-            }),
-          }),
+                status: HttpStatus.OK
+              })
+            })
+          })
         )
         .subscribe({
           next: (data) => {
             expect(data).toBeDefined();
             expect(data.status).toBe(HttpStatus.OK);
           },
-          complete: done(),
+          complete: done()
         });
     });
   });

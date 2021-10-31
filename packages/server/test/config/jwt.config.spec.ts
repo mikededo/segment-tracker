@@ -7,7 +7,7 @@ describe('jwtConfig', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(jwtConfig)],
+      imports: [ConfigModule.forFeature(jwtConfig)]
     }).compile();
 
     config = module.get<ConfigType<typeof jwtConfig>>(jwtConfig.KEY);

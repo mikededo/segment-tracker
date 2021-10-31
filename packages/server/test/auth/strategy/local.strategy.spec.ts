@@ -19,10 +19,10 @@ describe('LocalStrategy', () => {
           useValue: {
             constructor: jest.fn(),
             validateUser: jest.fn(),
-            login: jest.fn(),
-          },
-        },
-      ],
+            login: jest.fn()
+          }
+        }
+      ]
     }).compile();
 
     strategy = module.get<LocalStrategy>(LocalStrategy);
@@ -36,8 +36,8 @@ describe('LocalStrategy', () => {
         .mockImplementation((email: string, password: string) =>
           of({
             id: '12345',
-            email,
-          } as UserFromClaims),
+            email
+          } as UserFromClaims)
         );
 
       const user = await strategy.validate('mock@data.com', '12345');
@@ -51,7 +51,7 @@ describe('LocalStrategy', () => {
       jest
         .spyOn(service, 'validateUser')
         .mockImplementation((email: string, password: string) =>
-          of(null as UserFromClaims),
+          of(null as UserFromClaims)
         );
 
       expect.assertions(2);

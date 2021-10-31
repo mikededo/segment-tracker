@@ -8,6 +8,6 @@ import { dbModelsProviders } from './db-models.providers';
 @Module({
   imports: [ConfigModule.forFeature(mongoConfig)],
   providers: [...dbConnectionProviders, ...dbModelsProviders],
-  exports: [...dbConnectionProviders, ...dbModelsProviders],
+  exports: [...dbConnectionProviders, ...dbModelsProviders]
 })
 export class DatabaseModule {}

@@ -16,9 +16,9 @@ import { UserModule } from './user/user.module';
     RouterModule.register([{ path: 'auth', module: AuthModule }]),
     AuthModule,
     UserModule,
-    SegmentModule,
+    SegmentModule
   ],
   controllers: [AppController],
-  providers: [AppService, UserService],
+  providers: [AppService, UserService]
 })
 export class AppModule {}

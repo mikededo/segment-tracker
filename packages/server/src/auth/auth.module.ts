@@ -23,13 +23,13 @@ import { LocalStrategy } from './strategy/local.strategy';
       useFactory: (config: ConfigType<typeof jwtConfig>) =>
         ({
           secret: config.secretKey,
-          signOptions: { expiresIn: config.expireTime },
+          signOptions: { expiresIn: config.expireTime }
         } as JwtModuleOptions),
-      inject: [jwtConfig.KEY],
-    }),
+      inject: [jwtConfig.KEY]
+    })
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [RegisterController, LoginController],
-  exports: [AuthService],
+  exports: [AuthService]
 })
 export class AuthModule {}

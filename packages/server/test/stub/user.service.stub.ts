@@ -13,20 +13,20 @@ export class UserServiceStub implements Pick<UserService, keyof UserService> {
       _id: '61100878bda459155a1f5198',
       firstName: 'Stub',
       lastName: 'User I',
-      email: 'stub.i@user.com',
+      email: 'stub.i@user.com'
     } as User,
     {
       _id: '611008cadf1580788fde65a0',
       firstName: 'Stub',
       lastName: 'User II',
-      email: 'stub.ii@user.com',
+      email: 'stub.ii@user.com'
     } as User,
     {
       _id: '611008d88f015748ef02cdea',
       firstName: 'Stub',
       lastName: 'User III',
-      email: 'stub.iii@user.com',
-    } as User,
+      email: 'stub.iii@user.com'
+    } as User
   ];
 
   findByEmail(email: string): Observable<User> {
@@ -47,7 +47,7 @@ export class UserServiceStub implements Pick<UserService, keyof UserService> {
       email: data.email,
       password: data.password,
       firstName: data.firstName,
-      lastName: data.lastName,
+      lastName: data.lastName
     } as User);
   }
 
@@ -56,8 +56,8 @@ export class UserServiceStub implements Pick<UserService, keyof UserService> {
       this.findById(id).pipe(
         mergeMap((u) => (u ? of(u) : EMPTY)),
         throwIfEmpty(() => new NotFoundException(`user:${id} not found`)),
-        map((user) => ({ ...user, ...data } as User)),
-      ),
+        map((user) => ({ ...user, ...data } as User))
+      )
     );
   }
 }

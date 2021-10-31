@@ -8,6 +8,6 @@ import { SegmentService } from './segment.service';
   imports: [DatabaseModule],
   controllers: [SegmentController],
   providers: [SegmentService],
-  exports: [SegmentService],
+  exports: [SegmentService]
 })
 export class SegmentModule {}

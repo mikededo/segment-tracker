@@ -17,29 +17,29 @@ export class SegmentServiceStub
       name: 'Stub Segment I',
       distance: 5.0,
       elevation: 500,
-      steep: 10.0,
+      steep: 10.0
     } as Segment,
     {
       _id: '6121f0bb8ffd2b6fcd1c7377',
       name: 'Stub Segment II',
       distance: 5.0,
       elevation: 500,
-      steep: 10.0,
+      steep: 10.0
     } as Segment,
     {
       _id: '6121f0bb8ffd2b6fcd1c7378',
       name: 'Stub Segment III',
       distance: 5.0,
       elevation: 500,
-      steep: 10.0,
+      steep: 10.0
     } as Segment,
     {
       _id: '6121f0bb8ffd2b6fcd1c7379',
       name: 'Stub Segment IV',
       distance: 5.0,
       elevation: 500,
-      steep: 10.0,
-    } as Segment,
+      steep: 10.0
+    } as Segment
   ];
 
   private segmentStats: SegmentStat[] = [
@@ -47,20 +47,20 @@ export class SegmentServiceStub
       _id: '6121f0bb8ffd2b6fcd1d7396',
       duration: 10000,
       segment: { _id: '6121f0bb8ffd2b6fcd1c7396' },
-      date: new Date(2021, 6, 1),
+      date: new Date(2021, 6, 1)
     } as SegmentStat,
     {
       _id: '6121f0bb8ffd2b6fcd1d7397',
       duration: 9500,
       segment: { _id: '6121f0bb8ffd2b6fcd1c7396' },
-      date: new Date(2021, 6, 3),
+      date: new Date(2021, 6, 3)
     } as SegmentStat,
     {
       _id: '6121f0bb8ffd2b6fcd1d7398',
       duration: 9750,
       segment: { _id: '6121f0bb8ffd2b6fcd1c7396' },
-      date: new Date(2021, 6, 5),
-    } as SegmentStat,
+      date: new Date(2021, 6, 5)
+    } as SegmentStat
   ];
 
   getFilters(filters: Partial<FindAllSegmentsQuery> = null): any {
@@ -72,7 +72,7 @@ export class SegmentServiceStub
       name: { $regex: `.*${filters.keyword ?? ''}*.` },
       distance: { $geq: filters.minDistance ?? 0.0 },
       elevation: { $geq: filters.minElevation ?? 0.0 },
-      steep: { $geq: filters.minSteep ?? 0.0 },
+      steep: { $geq: filters.minSteep ?? 0.0 }
     } as any;
 
     if (filters.maxDistance) {
@@ -105,7 +105,7 @@ export class SegmentServiceStub
   save(segment: SegmentDto): Observable<Segment> {
     return of({
       _id: new Types.ObjectId().toHexString(),
-      ...segment,
+      ...segment
     } as Segment);
   }
 
@@ -128,21 +128,21 @@ export class SegmentServiceStub
   updateStatFrom(
     id: string,
     statId: string,
-    data: SegmentStatDto,
+    data: SegmentStatDto
   ): Observable<SegmentStat> {
     return of({
       ...this.segmentStats.find(
-        (stat) => stat._id === statId && stat.segment._id === id,
+        (stat) => stat._id === statId && stat.segment._id === id
       ),
-      ...data,
+      ...data
     } as SegmentStat);
   }
 
   deleteStatFrom(id: string, statId: string): Observable<SegmentStat> {
     return of(
       this.segmentStats.find(
-        (stat) => stat._id === statId && stat.segment._id === id,
-      ),
+        (stat) => stat._id === statId && stat.segment._id === id
+      )
     );
   }
 }

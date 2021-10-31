@@ -22,17 +22,17 @@ describe('dbModelsProviders', () => {
           useValue: {
             model: jest
               .fn()
-              .mockReturnValue({} as Model<User | Segment | SegmentStat>),
-          },
-        },
-      ],
+              .mockReturnValue({} as Model<User | Segment | SegmentStat>)
+          }
+        }
+      ]
     }).compile();
 
     connection = module.get<Connection>(PROVIDERS.DB);
     userModel = module.get<Model<User>>(PROVIDERS.MODELS.USER);
     segmentModel = module.get<Model<Segment>>(PROVIDERS.MODELS.SEGMENT);
     segmentStatModel = module.get<Model<SegmentStat>>(
-      PROVIDERS.MODELS.SEGMENT_STAT,
+      PROVIDERS.MODELS.SEGMENT_STAT
     );
   });
 

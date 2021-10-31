@@ -10,16 +10,16 @@ export const dbModelsProviders = [
   {
     provide: PROVIDERS.MODELS.USER,
     useFactory: (cnt: Connection) => createUserModel(cnt),
-    inject: [PROVIDERS.DB],
+    inject: [PROVIDERS.DB]
   },
   {
     provide: PROVIDERS.MODELS.SEGMENT,
     useFactory: (cnt: Connection) => createSegmentModel(cnt),
-    inject: [PROVIDERS.DB],
+    inject: [PROVIDERS.DB]
   },
   {
     provide: PROVIDERS.MODELS.SEGMENT_STAT,
     useFactory: (cnt: Connection) => createSegmentStatModel(cnt),
-    inject: [PROVIDERS.DB],
-  },
+    inject: [PROVIDERS.DB]
+  }
 ];

@@ -19,9 +19,9 @@ describe('UserController', () => {
       providers: [
         {
           provide: UserService,
-          useValue: { findById: jest.fn(), update: jest.fn() },
-        },
-      ],
+          useValue: { findById: jest.fn(), update: jest.fn() }
+        }
+      ]
     }).compile();
 
     controller = module.get<UserController>(UserController);
@@ -29,11 +29,11 @@ describe('UserController', () => {
 
     apiResponseMock = {
       status: jest.fn().mockReturnThis(),
-      send: jest.fn().mockReturnThis(),
+      send: jest.fn().mockReturnThis()
     } as any;
     responseSpy = {
       status: jest.spyOn(apiResponseMock, 'status'),
-      send: jest.spyOn(apiResponseMock, 'send'),
+      send: jest.spyOn(apiResponseMock, 'send')
     };
   });
 
@@ -50,12 +50,12 @@ describe('UserController', () => {
             email: 'mock@data.com',
             password: '12345',
             firstName: 'Jest',
-            lastName: 'Test',
-          } as any),
+            lastName: 'Test'
+          } as any)
         );
 
       const user = await lastValueFrom(
-        controller.getUser('00000', apiResponseMock),
+        controller.getUser('00000', apiResponseMock)
       );
 
       expect(user).toBeDefined();
@@ -70,7 +70,7 @@ describe('UserController', () => {
     const updatedData: UpdateUserDto = {
       firstName: 'ModifiedJest',
       lastName: 'ModifiedTest',
-      password: 'modifiedPassword',
+      password: 'modifiedPassword'
     };
     let updateSpy: jest.SpyInstance<Observable<User>>;
 
@@ -85,12 +85,12 @@ describe('UserController', () => {
           email: 'modified.mock@data.com',
           firstName: 'ModifiedJest',
           lastName: 'ModifiedTest',
-          password: 'modifiedPassword',
-        } as User),
+          password: 'modifiedPassword'
+        } as User)
       );
 
       const updated = await firstValueFrom(
-        controller.updateUser('00000', updatedData, apiResponseMock),
+        controller.updateUser('00000', updatedData, apiResponseMock)
       );
 
       expect(updateSpy).toBeCalledTimes(1);
@@ -104,7 +104,7 @@ describe('UserController', () => {
         email: 'modified.mock@data.com',
         firstName: 'ModifiedJest',
         lastName: 'ModifiedTest',
-        password: 'modifiedPassword',
+        password: 'modifiedPassword'
       });
 
       expect(updated).toBeDefined();

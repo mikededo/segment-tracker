@@ -32,14 +32,14 @@ export const SegmentSchema = new Schema<Segment>(
     type: {
       type: SchemaTypes.String,
       enum: ['HILLY', 'FLAT', 'DOWNHILL', 'AUTO'],
-      default: 'FLAT',
+      default: 'FLAT'
     },
-    owner: { type: SchemaTypes.ObjectId, ref: 'User', required: true },
+    owner: { type: SchemaTypes.ObjectId, ref: 'User', required: true }
   },
   {
     timestamps: true,
-    versionKey: false,
-  },
+    versionKey: false
+  }
 );
 
 export async function beforeSave(next: () => any) {
@@ -51,7 +51,7 @@ export async function beforeSave(next: () => any) {
   if (this.type === 'AUTO') {
     this.set(
       'type',
-      this.steep < 0 ? 'DOWNHILL' : this.steep > 5 ? 'HILLY' : 'FLAT',
+      this.steep < 0 ? 'DOWNHILL' : this.steep > 5 ? 'HILLY' : 'FLAT'
     );
   }
 
@@ -69,5 +69,5 @@ export async function afterDelete(segment: Segment, next: () => any) {
 SegmentSchema.post<Segment>('deleteOne', afterDelete);
 
 export const createSegmentModel: (cnt: Connection) => SegmentModel = (
-  cnt: Connection,
+  cnt: Connection
 ) => cnt.model<Segment>('Segment', SegmentSchema, 'segments');

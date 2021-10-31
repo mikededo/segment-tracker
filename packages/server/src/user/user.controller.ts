@@ -10,7 +10,7 @@ import {
   Param,
   Patch,
   Res,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { UpdateUserDto } from '@shared/dto/update.users';
 import { ParseObjectIdPipe } from '@shared/pipes';
@@ -24,7 +24,7 @@ export class UserController {
   @Get(':id')
   getUser(
     @Param('id', new ParseObjectIdPipe()) id: string,
-    @Res() res: Response,
+    @Res() res: Response
   ): Observable<Response> {
     return this.service
       .findById(id)
@@ -36,12 +36,12 @@ export class UserController {
   updateUser(
     @Param('id', new ParseObjectIdPipe()) id: string,
     @Body() user: UpdateUserDto,
-    @Res() res: Response,
+    @Res() res: Response
   ): Observable<Response> {
     return this.service.update(id, user).pipe(
       map((updated) => {
         return res.status(HttpStatus.ACCEPTED).send(updated);
-      }),
+      })
     );
   }
 }

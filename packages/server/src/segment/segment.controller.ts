@@ -15,7 +15,7 @@ import {
   Query,
   Res,
   Scope,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { SegmentDto } from '@shared/dto/segment';
 import { SegmentStatDto } from '@shared/dto/segment.stat';
@@ -36,7 +36,7 @@ export class SegmentController {
 
   @Get(':id')
   getSingle(
-    @Param('id', new ParseObjectIdPipe()) id: string,
+    @Param('id', new ParseObjectIdPipe()) id: string
   ): Observable<Segment> {
     return this.segmentService.findById(id);
   }
@@ -44,7 +44,7 @@ export class SegmentController {
   @Post('')
   createSegment(
     @Body() body: SegmentDto,
-    @Res() response: Response,
+    @Res() response: Response
   ): Observable<Response> {
     return this.segmentService
       .save(body)
@@ -53,8 +53,8 @@ export class SegmentController {
           response
             .location(`/posts/${segment._id}`)
             .status(HttpStatus.CREATED)
-            .send(segment),
-        ),
+            .send(segment)
+        )
       );
   }
 
@@ -62,7 +62,7 @@ export class SegmentController {
   updateSegment(
     @Param('id', new ParseObjectIdPipe()) id: string,
     @Body() body: SegmentDto,
-    @Res() response: Response,
+    @Res() response: Response
   ): Observable<Response> {
     return this.segmentService
       .update(id, body)
@@ -72,7 +72,7 @@ export class SegmentController {
   @Delete(':id')
   deleteSegment(
     @Param('id', new ParseObjectIdPipe()) id: string,
-    @Res() response: Response,
+    @Res() response: Response
   ): Observable<Response> {
     return this.segmentService
       .delete(id)
@@ -82,7 +82,7 @@ export class SegmentController {
   @Get(':id/stats')
   getStatsFrom(
     @Param('id', new ParseObjectIdPipe()) id: string,
-    @Res() response: Response,
+    @Res() response: Response
   ): Observable<Response> {
     return this.segmentService
       .getStatsFrom(id)
@@ -93,7 +93,7 @@ export class SegmentController {
   createStat(
     @Param('id', new ParseObjectIdPipe()) id: string,
     @Body() body: SegmentStatDto,
-    @Res() response: Response,
+    @Res() response: Response
   ): Observable<Response> {
     return this.segmentService
       .createStatFor(id, body)
@@ -102,8 +102,8 @@ export class SegmentController {
           response
             .location(`/segments/${id}/stats/${stat._id}`)
             .status(HttpStatus.CREATED)
-            .send(stat),
-        ),
+            .send(stat)
+        )
       );
   }
 
@@ -111,7 +111,7 @@ export class SegmentController {
   deleteStat(
     @Param('id', new ParseObjectIdPipe()) id: string,
     @Param('statId', new ParseObjectIdPipe()) statId: string,
-    @Res() response: Response,
+    @Res() response: Response
   ): Observable<Response> {
     return this.segmentService
       .deleteStatFrom(id, statId)

@@ -21,10 +21,10 @@ describe('RegisterController', () => {
             findByEmail: jest.fn(),
             findById: jest.fn(),
             existingEmail: jest.fn(),
-            register: jest.fn(),
-          },
-        },
-      ],
+            register: jest.fn()
+          }
+        }
+      ]
     }).compile();
 
     controller = module.get<RegisterController>(RegisterController);
@@ -39,7 +39,7 @@ describe('RegisterController', () => {
     const genApiResponseMock = () => ({
       location: jest.fn().mockReturnThis(),
       status: jest.fn().mockReturnThis(),
-      send: jest.fn().mockReturnThis(),
+      send: jest.fn().mockReturnThis()
     });
 
     it('should register a user when user data is valid', async () => {
@@ -56,14 +56,14 @@ describe('RegisterController', () => {
       const responseSpy = {
         location: jest.spyOn(apiResponseMock, 'location'),
         status: jest.spyOn(apiResponseMock, 'status'),
-        send: jest.spyOn(apiResponseMock, 'send'),
+        send: jest.spyOn(apiResponseMock, 'send')
       };
 
       const registerData: RegisterDto = {
         email: 'mock@data.com',
         password: '12345',
         firstName: 'Jest',
-        lastName: 'Test',
+        lastName: 'Test'
         // Other fields are optional
       };
 
@@ -94,8 +94,8 @@ describe('RegisterController', () => {
         await firstValueFrom(
           controller.register(
             { email: 'mock@data.com' } as any,
-            apiResponseMock,
-          ),
+            apiResponseMock
+          )
         );
       } catch (error) {
         expect(error).toBeDefined();

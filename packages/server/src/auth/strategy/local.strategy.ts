@@ -11,13 +11,13 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: AuthService) {
     super({
       usernameField: 'email',
-      passwordField: 'password',
+      passwordField: 'password'
     });
   }
 
   async validate(email: string, password: string): Promise<UserFromClaims> {
     const user: UserFromClaims = await lastValueFrom(
-      this.authService.validateUser(email, password),
+      this.authService.validateUser(email, password)
     );
 
     if (!user) {

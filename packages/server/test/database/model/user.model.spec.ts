@@ -11,11 +11,11 @@ jest.mock('mongoose', () => ({
     pre: jest.fn(),
     set: jest.fn(),
     methods: { comparePassword: jest.fn() },
-    comparePassword: jest.fn(),
+    comparePassword: jest.fn()
   })),
   SchemaTypes: jest.fn().mockImplementation(() => ({
-    String: jest.fn(),
-  })),
+    String: jest.fn()
+  }))
 }));
 
 // Add imports after, to avoid ReferenceError
@@ -25,7 +25,7 @@ import {
   beforeSave,
   comparePassword,
   userNameHook,
-  UserSchema,
+  UserSchema
 } from '@models/user.model';
 
 describe('UserSchema', () => {
@@ -58,7 +58,7 @@ describe('beforeSave', () => {
     const mockCtx = {
       isModified: jest.fn(),
       set: jest.fn(),
-      password: '123456',
+      password: '123456'
     };
 
     mockCtx.isModified.mockReturnValueOnce(true);
@@ -74,7 +74,7 @@ describe('getName', () => {
   it('should compute the first and last name of a user', async () => {
     const mockCtx = {
       firstName: 'Jest',
-      lastName: 'Test',
+      lastName: 'Test'
     };
     const res = await userNameHook.call(mockCtx);
 

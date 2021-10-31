@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { EMPTY, from, map, mergeMap, Observable, of, throwIfEmpty } from 'rxjs';
+import { EMPTY, from, mergeMap, Observable, of, throwIfEmpty } from 'rxjs';
 
 import { Segment } from '@database/model/segment.model';
 import { SegmentStat } from '@database/model/segment.stat.model';
@@ -8,15 +8,15 @@ import {
   Inject,
   Injectable,
   NotFoundException,
-  Scope,
+  Scope
 } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { PROVIDERS } from '@shared/constants';
 import { SegmentDto } from '@shared/dto/segment';
+import { SegmentStatDto } from '@shared/dto/segment.stat';
 import { AuthenticatedRequest } from '@shared/interfaces';
 
 import { FindAllSegmentsQuery } from './segment.interfaces';
-import { SegmentStatDto } from '@shared/dto/segment.stat';
 
 @Injectable({ scope: Scope.REQUEST })
 export class SegmentService {
@@ -24,7 +24,7 @@ export class SegmentService {
     @Inject(PROVIDERS.MODELS.SEGMENT) private segmentModel: Model<Segment>,
     @Inject(PROVIDERS.MODELS.SEGMENT_STAT)
     private segmentStatModel: Model<SegmentStat>,
-    @Inject(REQUEST) private request: AuthenticatedRequest,
+    @Inject(REQUEST) private request: AuthenticatedRequest
   ) {}
 
   getFilters(filters: Partial<FindAllSegmentsQuery> = null): any {
@@ -36,7 +36,7 @@ export class SegmentService {
       name: { $regex: `.*${filters.keyword ?? ''}*.` },
       distance: { $geq: filters.minDistance ?? 0.0 },
       elevation: { $geq: filters.minElevation ?? 0.0 },
-      steep: { $geq: filters.minSteep ?? 0.0 },
+      steep: { $geq: filters.minSteep ?? 0.0 }
     } as any;
 
     if (filters.maxDistance) {
@@ -85,11 +85,11 @@ export class SegmentService {
       this.segmentModel
         .find({
           owner: { _id: this.request.user.id },
-          ...this.getFilters(filters),
+          ...this.getFilters(filters)
         })
         .skip(skip)
         .limit(limit)
-        .exec(),
+        .exec()
     );
   }
 
@@ -104,7 +104,7 @@ export class SegmentService {
   findById(id: string): Observable<Segment> {
     return from(this.segmentModel.findById(id).exec()).pipe(
       mergeMap((s) => this.checkOwnage(s)),
-      throwIfEmpty(() => new NotFoundException(`segment:${id} not found`)),
+      throwIfEmpty(() => new NotFoundException(`segment:${id} not found`))
     );
   }
 
@@ -118,8 +118,8 @@ export class SegmentService {
     return from(
       this.segmentModel.create({
         ...segment,
-        owner: { _id: this.request.user.id },
-      }),
+        owner: { _id: this.request.user.id }
+      })
     );
   }
 
@@ -136,7 +136,7 @@ export class SegmentService {
     return this.findById(id).pipe(
       mergeMap((s) => this.checkOwnage(s)),
       throwIfEmpty(() => new NotFoundException(`segment:${id} not found`)),
-      mergeMap((s) => Object.assign(s, data).save()),
+      mergeMap((s) => Object.assign(s, data).save())
     );
   }
 
@@ -155,7 +155,7 @@ export class SegmentService {
       mergeMap((s) => {
         s.delete();
         return of(s);
-      }),
+      })
     );
   }
 
@@ -175,12 +175,12 @@ export class SegmentService {
         return from(
           this.segmentStatModel
             .find({
-              segment: { _id: segment._id },
+              segment: { _id: segment._id }
             })
             .select('-segment')
-            .exec(),
+            .exec()
         );
-      }),
+      })
     );
   }
 
@@ -201,10 +201,10 @@ export class SegmentService {
         return from(
           this.segmentStatModel.create({
             ...stat,
-            segment: { _id: segment._id },
-          }),
+            segment: { _id: segment._id }
+          })
         );
-      }),
+      })
     );
   }
 
@@ -223,7 +223,7 @@ export class SegmentService {
   updateStatFrom(
     id: string,
     statId: string,
-    data: SegmentStatDto,
+    data: SegmentStatDto
   ): Observable<SegmentStat> {
     return this.findById(id).pipe(
       mergeMap((s) => this.checkOwnage(s)),
@@ -231,9 +231,9 @@ export class SegmentService {
       mergeMap(() =>
         from(this.segmentStatModel.findByIdAndUpdate(statId, data)).pipe(
           mergeMap((s) => (s ? of(s) : EMPTY)),
-          throwIfEmpty(() => new NotFoundException(`segment:${id} not found`)),
-        ),
-      ),
+          throwIfEmpty(() => new NotFoundException(`segment:${id} not found`))
+        )
+      )
     );
   }
 
@@ -255,9 +255,9 @@ export class SegmentService {
       mergeMap(() =>
         from(this.segmentStatModel.findByIdAndDelete(statId)).pipe(
           mergeMap((s) => (s ? of(s) : EMPTY)),
-          throwIfEmpty(() => new NotFoundException(`segment:${id} not found`)),
-        ),
-      ),
+          throwIfEmpty(() => new NotFoundException(`segment:${id} not found`))
+        )
+      )
     );
   }
 }

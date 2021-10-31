@@ -15,7 +15,7 @@ describe('JwtGuard', () => {
 
   it('should return true for `canActivate`', async () => {
     AuthGuard('jwt').prototype.canActivate = jest.fn(() =>
-      Promise.resolve(true),
+      Promise.resolve(true)
     );
     AuthGuard('jwt').prototype.logIn = jest.fn(() => Promise.resolve());
 
@@ -27,7 +27,7 @@ describe('JwtGuard', () => {
       getType: jest.fn(),
       switchToHttp: jest.fn(),
       switchToRpc: jest.fn(),
-      switchToWs: jest.fn(),
+      switchToWs: jest.fn()
     };
 
     expect(await guard.canActivate(ctxMock)).toBeTruthy();
@@ -39,8 +39,8 @@ describe('JwtGuard', () => {
         await guard.handleRequest(
           undefined,
           { email: 'mock@data.com' },
-          undefined,
-        ),
+          undefined
+        )
       ).toEqual({ email: 'mock@data.com' });
     });
 

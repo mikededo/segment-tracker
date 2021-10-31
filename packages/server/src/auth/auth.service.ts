@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import {
   AccessToken,
   JwtUserPayload,
-  UserFromClaims,
+  UserFromClaims
 } from '@shared/interfaces';
 import { UserService } from '@user/user.service';
 
@@ -13,7 +13,7 @@ import { UserService } from '@user/user.service';
 export class AuthService {
   constructor(
     private jwtService: JwtService,
-    private userService: UserService,
+    private userService: UserService
   ) {}
 
   /**
@@ -24,7 +24,7 @@ export class AuthService {
     return this.userService.findByEmail(email).pipe(
       mergeMap((user) => (user ? of(user) : EMPTY)),
       throwIfEmpty(
-        () => new UnauthorizedException(`username or password not matched`),
+        () => new UnauthorizedException(`username or password not matched`)
       ),
       mergeMap((user) =>
         user.comparePassword(password).pipe(
@@ -32,16 +32,16 @@ export class AuthService {
             if (valid) {
               return {
                 id: user.id,
-                email: user.email,
+                email: user.email
               } as UserFromClaims;
             } else {
               throw new UnauthorizedException(
-                `username or password not matched`,
+                `username or password not matched`
               );
             }
-          }),
-        ),
-      ),
+          })
+        )
+      )
     );
   }
 
@@ -52,11 +52,11 @@ export class AuthService {
   login(user: UserFromClaims): Observable<AccessToken> {
     const claimsPayload: JwtUserPayload = {
       ui: user.id,
-      ue: user.email,
+      ue: user.email
     };
 
     return from(this.jwtService.signAsync(claimsPayload)).pipe(
-      map((token) => ({ token } as AccessToken)),
+      map((token) => ({ token } as AccessToken))
     );
   }
 }

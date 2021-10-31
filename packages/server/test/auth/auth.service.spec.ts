@@ -20,17 +20,17 @@ describe('AuthService', () => {
           provide: UserService,
           useValue: {
             constructor: jest.fn(),
-            findByEmail: jest.fn(),
-          },
+            findByEmail: jest.fn()
+          }
         },
         {
           provide: JwtService,
           useValue: {
             constructor: jest.fn(),
-            signAsync: jest.fn(),
-          },
-        },
-      ],
+            signAsync: jest.fn()
+          }
+        }
+      ]
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
@@ -56,15 +56,15 @@ describe('AuthService', () => {
           of({
             email,
             password: 'password',
-            comparePassword: (password: string) => of(true),
-          } as User),
+            comparePassword: (password: string) => of(true)
+          } as User)
         );
 
       authService.validateUser('mock@data.com', 'password').subscribe({
         next: (data) => {
           expect(data.email).toBe('mock@data.com');
         },
-        complete: done(),
+        complete: done()
       });
     });
 
@@ -75,13 +75,13 @@ describe('AuthService', () => {
           of({
             email,
             password: 'password',
-            comparePassword: (password: string) => of(false),
-          } as User),
+            comparePassword: (password: string) => of(false)
+          } as User)
         );
 
       authService.validateUser('mock@data.com', 'password').subscribe({
         error: onError,
-        complete: done(),
+        complete: done()
       });
     });
 
@@ -92,7 +92,7 @@ describe('AuthService', () => {
 
       authService.validateUser('mock@data.com', 'password').subscribe({
         error: onError,
-        complete: done(),
+        complete: done()
       });
     });
   });
@@ -104,7 +104,7 @@ describe('AuthService', () => {
       authService
         .login({
           id: '12345',
-          email: 'mock@data.com',
+          email: 'mock@data.com'
         })
         .subscribe({
           next: (data) => {
@@ -112,10 +112,10 @@ describe('AuthService', () => {
             expect(jwtService.signAsync).toBeCalledTimes(1);
             expect(jwtService.signAsync).toBeCalledWith({
               ui: '12345',
-              ue: 'mock@data.com',
+              ue: 'mock@data.com'
             });
           },
-          complete: done(),
+          complete: done()
         });
     });
   });

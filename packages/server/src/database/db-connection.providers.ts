@@ -11,8 +11,8 @@ export const dbConnectionProviders = [
       createConnection(dbConfig.uri, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useFindAndModify: false,
+        useFindAndModify: false
       }),
-    inject: [mongoConfig.KEY],
-  },
+    inject: [mongoConfig.KEY]
+  }
 ];

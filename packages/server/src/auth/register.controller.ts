@@ -8,7 +8,7 @@ import {
   Controller,
   HttpStatus,
   Post,
-  Res,
+  Res
 } from '@nestjs/common';
 import { UserService } from '@user/user.service';
 
@@ -19,7 +19,7 @@ export class RegisterController {
   @Post()
   register(
     @Body() body: RegisterDto,
-    @Res() res: Response,
+    @Res() res: Response
   ): Observable<Response> {
     return this.userService.existingEmail(body.email).pipe(
       mergeMap((exists) => {
@@ -33,9 +33,9 @@ export class RegisterController {
               .location(`/users/${created.id}`)
               .status(HttpStatus.CREATED)
               .send(created);
-          }),
+          })
         );
-      }),
+      })
     );
   }
 }

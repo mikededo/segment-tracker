@@ -21,10 +21,10 @@ describe('UserService', () => {
             findOne: jest.fn(),
             findById: jest.fn(),
             exists: jest.fn(),
-            create: jest.fn(),
-          },
-        },
-      ],
+            create: jest.fn()
+          }
+        }
+      ]
     }).compile();
 
     service = module.get<UserService>(UserService);
@@ -40,7 +40,7 @@ describe('UserService', () => {
       email: 'mock@data.com',
       password: 'mockpassword',
       firstName: 'Mock',
-      lastName: 'Data',
+      lastName: 'Data'
     };
 
     const createSpy = jest
@@ -58,14 +58,14 @@ describe('UserService', () => {
       const updated = {
         password: '123456',
         firstName: 'Updated',
-        lastName: 'Test',
+        lastName: 'Test'
       };
 
       jest.spyOn(model, 'findById').mockReturnValue({
         exec: jest.fn().mockResolvedValue({
           ...updated,
-          save: jest.fn().mockReturnValue(of(updated)),
-        }) as any,
+          save: jest.fn().mockReturnValue(of(updated))
+        }) as any
       } as any);
 
       service.update('61100878bda459155a1f5198', updated).subscribe({
@@ -73,7 +73,7 @@ describe('UserService', () => {
           expect(data).toBeTruthy();
           expect(model.findById).toBeCalled();
         },
-        complete: done(),
+        complete: done()
       });
     });
 
@@ -81,11 +81,11 @@ describe('UserService', () => {
       const updated = {
         password: '123456',
         firstName: 'Updated',
-        lastName: 'Test',
+        lastName: 'Test'
       };
 
       jest.spyOn(model, 'findById').mockReturnValue({
-        exec: jest.fn().mockResolvedValue(null) as any,
+        exec: jest.fn().mockResolvedValue(null) as any
       } as any);
 
       service.update('61100878bda459155a1f5198', updated).subscribe({
@@ -94,7 +94,7 @@ describe('UserService', () => {
           expect(error).toBeInstanceOf(NotFoundException);
           expect(model.findById).toHaveBeenCalledTimes(1);
         },
-        complete: done(),
+        complete: done()
       });
     });
   });
@@ -106,8 +106,8 @@ describe('UserService', () => {
         exec: jest.fn().mockResolvedValue({
           email: 'mock@data.com',
           firstName: 'Mock',
-          lastName: 'Data',
-        } as User),
+          lastName: 'Data'
+        } as User)
       } as any;
     });
 
@@ -116,7 +116,7 @@ describe('UserService', () => {
     expect(found).toEqual({
       email: 'mock@data.com',
       firstName: 'Mock',
-      lastName: 'Data',
+      lastName: 'Data'
     });
     expect(model.findOne).lastCalledWith({ email: 'mock@data.com' });
     expect(model.findOne).toBeCalledTimes(1);
@@ -129,8 +129,8 @@ describe('UserService', () => {
         exec: jest.fn().mockResolvedValue({
           email: 'mock@data.com',
           firstName: 'Mock',
-          lastName: 'Data',
-        } as User),
+          lastName: 'Data'
+        } as User)
       } as any;
     });
 
@@ -139,7 +139,7 @@ describe('UserService', () => {
     expect(found).toEqual({
       email: 'mock@data.com',
       firstName: 'Mock',
-      lastName: 'Data',
+      lastName: 'Data'
     });
     expect(model.findById).lastCalledWith('123');
     expect(model.findById).toBeCalledTimes(1);
@@ -151,7 +151,7 @@ describe('UserService', () => {
         .spyOn(model, 'exists')
         .mockImplementation(() => Promise.resolve(true));
       const result = await firstValueFrom(
-        service.existingEmail('mock@data.com'),
+        service.existingEmail('mock@data.com')
       );
 
       expect(existsSpy).toBeCalledWith({ email: 'mock@data.com' });
@@ -164,7 +164,7 @@ describe('UserService', () => {
         .spyOn(model, 'exists')
         .mockImplementation(() => Promise.resolve(false));
       const result = await firstValueFrom(
-        service.existingEmail('invalid@email.com'),
+        service.existingEmail('invalid@email.com')
       );
 
       expect(existsSpy).toBeCalledWith({ email: 'invalid@email.com' });

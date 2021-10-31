@@ -38,19 +38,19 @@ export const UserSchema = new Schema<User>(
     gender: {
       type: SchemaTypes.String,
       enum: ['MALE', 'FEMALE', 'OTHER'],
-      default: 'OTHER',
+      default: 'OTHER'
     },
     level: {
       type: SchemaTypes.String,
       enum: ['BEGGINER', 'INTERMEDIATE', 'ADVANCED', 'EXPERT'],
-      default: 'INTERMEDIATE',
-    },
+      default: 'INTERMEDIATE'
+    }
   },
   {
     timestamps: true,
     toJSON: { virtuals: true, transform: baseSerializer },
-    versionKey: false,
-  },
+    versionKey: false
+  }
 );
 
 export async function beforeSave(next: () => any) {
@@ -85,5 +85,5 @@ export function userNameHook() {
 UserSchema.virtual('name').get(userNameHook);
 
 export const createUserModel: (cnt: Connection) => UserModel = (
-  cnt: Connection,
+  cnt: Connection
 ) => cnt.model<User>('User', UserSchema, 'users');

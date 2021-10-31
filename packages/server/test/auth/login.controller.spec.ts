@@ -19,10 +19,10 @@ describe('LoginController', () => {
           provide: AuthService,
           useValue: {
             contructor: jest.fn(),
-            login: jest.fn(),
-          },
-        },
-      ],
+            login: jest.fn()
+          }
+        }
+      ]
     }).compile();
 
     controller = module.get<LoginController>(LoginController);
@@ -38,21 +38,21 @@ describe('LoginController', () => {
       jest
         .spyOn(authService, 'login')
         .mockImplementation((user: any) =>
-          of({ token: 'mock_token' } as AccessToken),
+          of({ token: 'mock_token' } as AccessToken)
         );
 
       const responseMock = createMock<Response>({
         header: jest.fn().mockReturnValue({
           json: jest.fn().mockReturnValue({
             send: jest.fn().mockReturnValue({
-              header: { Authorization: 'Bearer mock_token' },
-            }),
-          }),
-        }),
+              header: { Authorization: 'Bearer mock_token' }
+            })
+          })
+        })
       });
 
       const response = await lastValueFrom(
-        controller.login({} as any, responseMock),
+        controller.login({} as any, responseMock)
       );
 
       expect(response).toBeTruthy();
